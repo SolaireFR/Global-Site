@@ -1,4 +1,4 @@
-package perso.fr.globalsite;
+package javaproject.fr.globalsite;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
