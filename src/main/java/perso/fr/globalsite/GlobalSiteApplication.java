@@ -1,4 +1,4 @@
-package javaproject.fr.globalsite;
+package perso.fr.globalsite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
