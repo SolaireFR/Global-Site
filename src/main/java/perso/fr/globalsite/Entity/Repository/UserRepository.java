@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import perso.fr.globalsite.Entity.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
-    
+    User getUserByEmail(String email);
 }
