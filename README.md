@@ -21,3 +21,6 @@ create: Creates the database every time but does not drop it on close.
 create-drop: Creates the database and drops it when SessionFactory closes.
 
 Spring security connect to "user" with password generated in the terminal maven Spring
+
+Spring Security nouveauté :
+- https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
