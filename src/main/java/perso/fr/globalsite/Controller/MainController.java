@@ -3,6 +3,8 @@ package perso.fr.globalsite.Controller;
 import java.security.NoSuchAlgorithmException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,8 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView getHome() {
-        ModelAndView modelAndView = new ModelAndView("home"); // "home" correspond au nom du fichier HTML dans le répertoire "templates"
+        ModelAndView modelAndView = new ModelAndView("home"); // "home" correspond au nom du fichier HTML dans le
+                                                              // répertoire "templates"
         // Vous pouvez ajouter des objets à transmettre au modèle ici si nécessaire
         return modelAndView;
     }
@@ -75,11 +78,16 @@ public class MainController {
         newUser.setRole(role);
         System.out.println("------\n" + newUser);
         userRepository.save(newUser);
-        return "Saved : "+newUser.toString();
+        return "Saved : " + newUser.toString();
     }
 
     @GetMapping("/alluser")
     public @ResponseBody Iterable<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @GetMapping("/error")
+    public ResponseEntity<String> getError(@RequestParam HttpStatus status, @RequestParam String message) {
+        return ResponseEntity.status(status).body(message);
     }
 }

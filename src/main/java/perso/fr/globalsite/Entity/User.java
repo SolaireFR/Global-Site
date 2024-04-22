@@ -1,23 +1,32 @@
 package perso.fr.globalsite.Entity;
 
+import jakarta.annotation.Nonnull;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(nullable = false, columnDefinition = "varchar(64)")
     private String username;
+    @Column(unique = true, nullable = false, columnDefinition = "varchar(128)")
     private String email;
+    @Column(nullable = false, columnDefinition = "varchar(128)")
     private String encodedPassword;
     @Enumerated
+    @Column(nullable = false, columnDefinition = "tinyint DEFAULT 2") // Default is LOCKED
     private Roles role;
     
     @Override

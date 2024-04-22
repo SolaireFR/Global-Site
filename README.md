@@ -3,9 +3,16 @@ Lancer projet :
 mvn spring-boot:run
 ```
 
+Java 22 :
+https://www.oracle.com/fr/java/technologies/downloads/#jdk22-windows
+
 Mysql DB :
 https://dev.mysql.com/downloads/mysql/
 https://spring.io/guides/gs/accessing-data-mysql
+ouvrir app -> mysql client
+CREATE DATABASE global_site_db;
+CREATE USER 'springuser'@'%' IDENTIFIED BY 'springpassword';
+GRANT ALL ON global_site_db.* TO 'springuser'@'%';
 
 spring.jpa.hibernate.ddl-auto=update
 spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_example
