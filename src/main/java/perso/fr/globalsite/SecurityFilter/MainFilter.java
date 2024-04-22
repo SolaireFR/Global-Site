@@ -1,4 +1,4 @@
-package perso.fr.globalsite.Security;
+package perso.fr.globalsite.SecurityFilter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -30,7 +30,7 @@ public class MainFilter extends HttpFilter {
         String requestURI = req.getRequestURI();
 
         // PERMIT ALL
-        if (requestURI.endsWith("/global-site/") || requestURI.endsWith("/login") || requestURI.endsWith("/error"))
+        if (requestURI.contains("/public/"))
             chain.doFilter(req, res);
 
         // PERMIT CONNECTED
@@ -59,13 +59,13 @@ public class MainFilter extends HttpFilter {
     }
 
     private void redirectToLogin(HttpServletResponse res) throws IOException {
-        res.sendRedirect("/global-site/login");
+        res.sendRedirect("/global-site/public/login");
         return;
     }
 
     private void redirectToError(HttpServletResponse res, HttpStatus status, String message)
             throws IOException {
-        res.sendRedirect("/global-site/error?status=" + status + "&message=" + message);
+        res.sendRedirect("/global-site/public/error?status=" + status.value() + "&message=" + message);
         return;
     }
 }

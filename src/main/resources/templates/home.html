@@ -2,18 +2,20 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title th:include="base :: global-site-title"></title>
-    <link rel="stylesheet" href="/css/base.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:insert="~{base :: global-site-title}"></title>
+    <link  rel="stylesheet" href="/public/css/bootstrap.css">
 </head>
 
 <body>
-    <header th:include="base :: global-site-header"></header>
+    <header th:insert="~{base :: global-site-header}"></header>
 
     <section>
         <h2>Page d'accueil</h2>
     </section>
 
-    <footer th:include="base :: global-site-footer"></footer>
+    <footer th:insert="~{base :: global-site-footer}"></footer>
 </body>
 
 </html>

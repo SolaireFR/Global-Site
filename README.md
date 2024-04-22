@@ -31,3 +31,5 @@ Spring security connect to "user" with password generated in the terminal maven 
 
 Spring Security nouveauté :
 - https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
+
+Bootstrap 5.3

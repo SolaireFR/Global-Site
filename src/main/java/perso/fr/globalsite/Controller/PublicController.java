@@ -17,20 +17,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import perso.fr.globalsite.Entity.User;
 import perso.fr.globalsite.Entity.Repository.UserRepository;
-import perso.fr.globalsite.Entity.Roles;
 
 @Controller
-@RequestMapping(path = "/global-site")
-public class MainController {
-
+@RequestMapping(path = "/global-site/public/")
+public class PublicController {
+    
     @Autowired
     private UserRepository userRepository;
-
+    
     @GetMapping("/")
     public ModelAndView getHome() {
-        ModelAndView modelAndView = new ModelAndView("home"); // "home" correspond au nom du fichier HTML dans le
-                                                              // répertoire "templates"
-        // Vous pouvez ajouter des objets à transmettre au modèle ici si nécessaire
+        ModelAndView modelAndView = new ModelAndView("home");
         return modelAndView;
     }
 
@@ -56,29 +53,11 @@ public class MainController {
             if (tmpUser.getEncodedPassword().equals(bddUser.getEncodedPassword())) {
                 HttpSession session = req.getSession(true);
                 session.setAttribute("email", email);
-                return "redirect:/global-site/";
+                return "redirect:/global-site/public/";
             } else
-                return "redirect:/global-site/login?error=password";
+                return "redirect:/global-site/public/login?error=password";
         } else
-            return "redirect:/global-site/login?error=password";
-    }
-
-    @PostMapping("/adduser")
-    public @ResponseBody String addNewUser(
-            @RequestParam String username,
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam Roles role)
-            throws NoSuchAlgorithmException {
-
-        User newUser = new User();
-        newUser.setUsername(username);
-        newUser.setEmail(email);
-        newUser.setEncodedPassword(password);
-        newUser.setRole(role);
-        System.out.println("------\n" + newUser);
-        userRepository.save(newUser);
-        return "Saved : " + newUser.toString();
+            return "redirect:/global-site/public/login?error=password";
     }
 
     @GetMapping("/alluser")
@@ -87,7 +66,8 @@ public class MainController {
     }
 
     @GetMapping("/error")
-    public ResponseEntity<String> getError(@RequestParam HttpStatus status, @RequestParam String message) {
-        return ResponseEntity.status(status).body(message);
+    public ResponseEntity<String> getError(@RequestParam int status, @RequestParam String message) {
+        HttpStatus statusToReturn = HttpStatus.valueOf(status);
+        return ResponseEntity.status(statusToReturn).body(message);
     }
 }

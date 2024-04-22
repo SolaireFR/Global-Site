@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title th:insert="~{base :: global-site-title}"></title>
+    <link  rel="stylesheet" href="/public/css/bootstrap.css">
 </head>
 
 <body>
-    <form action="/global-site/login" method="POST">
+    <header th:insert="~{base :: global-site-header}"></header>
+
+    <form action="/global-site/public/login" method="POST">
         <div>
             <label for="email">Adresse e-mail :</label><br>
             <input type="email" id="email" name="email" required>
@@ -21,6 +24,8 @@
             <button type="submit">Se connecter</button>
         </div>
     </form>
+
+    <footer th:insert="~{base :: global-site-footer}"></footer>
 </body>
 
 </html>
