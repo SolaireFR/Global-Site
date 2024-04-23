@@ -1,13 +1,13 @@
-package perso.fr.globalsite.SecurityFilter;
+package perso.fr.globalsite.GlobalSite.SecurityFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import perso.fr.globalsite.Entity.Roles;
-import perso.fr.globalsite.Entity.User;
-import perso.fr.globalsite.Entity.Repository.UserRepository;
+import perso.fr.globalsite.GlobalSite.Entity.Roles;
+import perso.fr.globalsite.GlobalSite.Entity.User;
+import perso.fr.globalsite.GlobalSite.Entity.Repository.UserRepository;
 
 @Component
 public class VerifRoleFilter {

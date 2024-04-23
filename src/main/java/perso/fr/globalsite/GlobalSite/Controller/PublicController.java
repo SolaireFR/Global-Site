@@ -1,4 +1,4 @@
-package perso.fr.globalsite.Controller;
+package perso.fr.globalsite.GlobalSite.Controller;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import perso.fr.globalsite.Entity.User;
-import perso.fr.globalsite.Entity.Repository.UserRepository;
+import perso.fr.globalsite.GlobalSite.Entity.User;
+import perso.fr.globalsite.GlobalSite.Entity.Repository.UserRepository;
 
 @Controller
 @RequestMapping(path = "/global-site/public/")
@@ -57,12 +56,7 @@ public class PublicController {
             } else
                 return "redirect:/global-site/public/login?error=password";
         } else
-            return "redirect:/global-site/public/login?error=password";
-    }
-
-    @GetMapping("/alluser")
-    public @ResponseBody Iterable<User> getAllUsers() {
-        return userRepository.findAll();
+            return "redirect:/global-site/public/login?error=email";
     }
 
     @GetMapping("/error")

@@ -1,4 +1,4 @@
-package perso.fr.globalsite.SecurityFilter;
+package perso.fr.globalsite.GlobalSite.SecurityFilter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
