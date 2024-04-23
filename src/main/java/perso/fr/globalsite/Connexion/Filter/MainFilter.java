@@ -1,4 +1,4 @@
-package perso.fr.globalsite.GlobalSite.SecurityFilter;
+package perso.fr.globalsite.Connexion.Filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -6,7 +6,11 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import perso.fr.globalsite.Connexion.Service.URLManager;
+import perso.fr.globalsite.URLManager.PublicURL;
+
 import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -30,27 +34,28 @@ public class MainFilter extends HttpFilter {
         String requestURI = req.getRequestURI();
 
         // PERMIT ALL
-        if (requestURI.contains("/public/"))
+        if (IsPublicURL(requestURI))
             chain.doFilter(req, res);
 
         // PERMIT CONNECTED
         else if (verifConnexionFilter.verifConnexion(req)) {
 
-            // PERMIT ALL CONNECTED
-            if (requestURI.endsWith("/alluser"))
-                chain.doFilter(req, res);
-
             // PERMIT ADMIN
-            else if (verifRoleFilter.verifRoleAdmin(req))
-                chain.doFilter(req, res);
+            if (requestURI.contains("/admin/"))
+                if (verifRoleFilter.verifRoleAdmin(req))
+                    chain.doFilter(req, res);
+                    
+                // MUST HAVE A VALID ROLE
+                else {
+                    HttpStatus status = HttpStatus.UNAUTHORIZED;
+                    String message = "vous n'avez pas les droits d'acces a cette page";
+                    redirectToError(res, status, message);
+                    return;
+                }
 
-            // MUST HAVE A VALID ROLE
-            else {
-                HttpStatus status = HttpStatus.UNAUTHORIZED;
-                String message = "vous n'avez pas les droits d'acces a cette page";
-                redirectToError(res, status, message);
-                return;
-            }
+            // PERMIT ALL CONNECTED
+            else
+                chain.doFilter(req, res);
         }
 
         // MUST BE CONNECTED
@@ -58,14 +63,22 @@ public class MainFilter extends HttpFilter {
             redirectToLogin(res);
     }
 
+    private boolean IsPublicURL(String fullURL) {
+        for(String publicURL : PublicURL.urls) {
+            if (fullURL.contains(publicURL))
+                return true;
+        }
+        return false;
+    }
+
     private void redirectToLogin(HttpServletResponse res) throws IOException {
-        res.sendRedirect("/global-site/public/login");
+        res.sendRedirect(URLManager.LOGIN_URL);
         return;
     }
 
     private void redirectToError(HttpServletResponse res, HttpStatus status, String message)
             throws IOException {
-        res.sendRedirect("/global-site/public/error?status=" + status.value() + "&message=" + message);
+        res.sendRedirect(URLManager.ERROR_URL+"?status=" + status.value() + "&message=" + message);
         return;
     }
 }

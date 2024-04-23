@@ -1,4 +1,4 @@
-package perso.fr.globalsite.GlobalSite.Entity;
+package perso.fr.globalsite.Connexion.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

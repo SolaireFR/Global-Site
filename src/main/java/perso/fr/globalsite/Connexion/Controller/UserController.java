@@ -1,4 +1,4 @@
-package perso.fr.globalsite.GlobalSite.Controller;
+package perso.fr.globalsite.Connexion.Controller;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -8,34 +8,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import perso.fr.globalsite.GlobalSite.Entity.User;
-import perso.fr.globalsite.GlobalSite.Entity.Repository.UserRepository;
+import perso.fr.globalsite.Connexion.Entity.User;
+import perso.fr.globalsite.Connexion.Entity.Repository.UserRepository;
+import perso.fr.globalsite.Connexion.Service.URLManager;
 
 @Controller
-@RequestMapping(path = "/global-site/public/")
-public class PublicController {
+public class UserController {
     
     @Autowired
     private UserRepository userRepository;
-    
-    @GetMapping("/")
-    public ModelAndView getHome() {
-        ModelAndView modelAndView = new ModelAndView("home");
-        return modelAndView;
-    }
 
-    @GetMapping("/login")
+    @GetMapping(URLManager.LOGIN_URL)
     public String getLogin() {
         return "login";
     }
 
-    @PostMapping("/login")
+    @PostMapping(URLManager.LOGIN_URL)
     public String postLogin(
             HttpServletRequest req,
             @RequestParam("email") String email,
@@ -52,14 +44,14 @@ public class PublicController {
             if (tmpUser.getEncodedPassword().equals(bddUser.getEncodedPassword())) {
                 HttpSession session = req.getSession(true);
                 session.setAttribute("email", email);
-                return "redirect:/global-site/public/";
+                return "redirect:/I-DONT-KNOW/";
             } else
-                return "redirect:/global-site/public/login?error=password";
+                return "redirect:"+URLManager.LOGIN_URL+"?error=password";
         } else
-            return "redirect:/global-site/public/login?error=email";
+            return "redirect:"+URLManager.LOGIN_URL+"?error=email";
     }
 
-    @GetMapping("/error")
+    @GetMapping(URLManager.ERROR_URL)
     public ResponseEntity<String> getError(@RequestParam int status, @RequestParam String message) {
         HttpStatus statusToReturn = HttpStatus.valueOf(status);
         return ResponseEntity.status(statusToReturn).body(message);
