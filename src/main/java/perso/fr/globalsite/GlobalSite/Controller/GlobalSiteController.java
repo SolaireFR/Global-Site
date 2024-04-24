@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import perso.fr.globalsite.Connexion.Entity.Roles;
 import perso.fr.globalsite.Connexion.Entity.User;
 import perso.fr.globalsite.Connexion.Entity.Repository.UserRepository;
@@ -21,13 +23,18 @@ public class GlobalSiteController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/")
+    @GetMapping("/**")
+    public String getAllURL() {
+        return "redirect:"+URLManager.SITE_URL;
+    }
+
+    @GetMapping(URLManager.SITE_URL)
     public ModelAndView getHome() {
-        ModelAndView modelAndView = new ModelAndView("home");
+        ModelAndView modelAndView = new ModelAndView("GlobalSite/home");
         return modelAndView;
     }
 
-    @PostMapping("/adduser")
+    @PostMapping(URLManager.ADD_USER_URL)
     public @ResponseBody String addNewUser(
             @RequestParam String username,
             @RequestParam String email,
@@ -45,7 +52,7 @@ public class GlobalSiteController {
         return "Saved : " + newUser.toString();
     }
 
-    @GetMapping("/alluser")
+    @GetMapping(URLManager.ALL_USER_URL)
     public @ResponseBody Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -53,5 +60,13 @@ public class GlobalSiteController {
     @GetMapping(URLManager.CONNECTED_URL)
     public @ResponseBody String connected() {
         return "<h1>You are connected !</h1>";
+    }
+
+    @GetMapping(URLManager.REMOVE_SESSION)
+    public @ResponseBody String removeSession(HttpServletRequest req) {
+        HttpSession s = req.getSession(true);
+        s.invalidate();
+
+        return "<h1>Your session was invalidate</h1>";
     }
 }

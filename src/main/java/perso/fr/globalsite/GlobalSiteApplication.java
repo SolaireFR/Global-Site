@@ -12,5 +12,4 @@ public class GlobalSiteApplication {
 		InitURLManagers.inits();
 		SpringApplication.run(GlobalSiteApplication.class, args);
 	}
-
 }

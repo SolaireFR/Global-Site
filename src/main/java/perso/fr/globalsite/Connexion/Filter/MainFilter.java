@@ -7,13 +7,13 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import perso.fr.globalsite.Connexion.Service.URLManager;
-import perso.fr.globalsite.URLManager.PublicURL;
+import perso.fr.globalsite.URLManager.AdminURLs;
+import perso.fr.globalsite.URLManager.PublicURLs;
+import perso.fr.globalsite.URLManager.UserURLs;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,58 +32,56 @@ public class MainFilter extends HttpFilter {
             HttpServletResponse res,
             FilterChain chain) throws IOException, ServletException {
 
-        URLManager.init();
-        System.out.println(PublicURL.PrintURLs());
-
         String requestURI = req.getRequestURI();
 
-        // PERMIT ALL
-        if (IsPublicURL(requestURI))
-            chain.doFilter(req, res);
-
-        // PERMIT CONNECTED
-        else if (verifConnexionFilter.verifConnexion(req)) {
-
-            // PERMIT ADMIN
-            if (requestURI.contains("/admin/"))
-                if (verifRoleFilter.verifRoleAdmin(req))
-                    chain.doFilter(req, res);
-                    
-                // MUST HAVE A VALID ROLE
-                else {
-                    HttpStatus status = HttpStatus.UNAUTHORIZED;
-                    String message = "vous n'avez pas les droits d'acces a cette page";
-                    redirectToError(res, status, message);
-                    return;
-                }
-
-            // PERMIT ALL CONNECTED
-            else
+        try {
+            // PERMIT IF PUBLIC PAGE OR FILE
+            boolean isPublic = PublicURLs.contain(requestURI);
+            boolean containFile = URLManager.stringContainFile(requestURI);
+            if (isPublic || containFile)
                 chain.doFilter(req, res);
-        }
 
-        // MUST BE CONNECTED
-        else
-            redirectToLogin(res);
+            // IF USER PAGE
+            else if (UserURLs.contain(requestURI)) {
+
+                // PERMIT IF USER CONNECTED
+                if (verifConnexionFilter.verifConnexion(req))
+                    chain.doFilter(req, res);
+                
+                // USER MUST BE CONNECTED
+                else
+                    redirectToLogin(requestURI, res);
+            }
+            // IF ADMIN PAGE
+            else if (AdminURLs.contain(requestURI)) {
+
+                // IF USER CONNECTED
+                if (verifConnexionFilter.verifConnexion(req))
+
+                    // PERMIT IF USER ADMIN
+                    if (verifRoleFilter.verifRoleAdmin(req))
+                        chain.doFilter(req, res);
+
+                    // USER MUST BE ADMIN
+                    else
+                        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+                // USER MUST BE CONNECTED
+                else
+                    redirectToLogin(requestURI, res);
+            } 
+            // PAGE NOT IN URLs
+            else
+                res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+        } catch (ServletException se) {
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 
-    private boolean IsPublicURL(String fullURL) {
-        List<String> urls = PublicURL.urls;
-        for(String publicURL : urls) {
-            if (fullURL.contains(publicURL))
-                return true;
-        }
-        return false;
-    }
-
-    private void redirectToLogin(HttpServletResponse res) throws IOException {
+    private void redirectToLogin(String previousURL, HttpServletResponse res) throws IOException {
+        URLManager.setPreviousURL(previousURL);
         res.sendRedirect(URLManager.LOGIN_URL);
-        return;
-    }
-
-    private void redirectToError(HttpServletResponse res, HttpStatus status, String message)
-            throws IOException {
-        res.sendRedirect(URLManager.ERROR_URL+"?status=" + status.value() + "&message=" + message);
         return;
     }
 }
