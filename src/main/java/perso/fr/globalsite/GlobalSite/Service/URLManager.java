@@ -15,7 +15,7 @@ public abstract class URLManager {
     public static final String REMOVE_SESSION = SITE_URL+"/rm_session";
 
     public static void init() {
-        PublicURLs.urls.addAll(Arrays.asList(REMOVE_SESSION));
+        PublicURLs.urls.addAll(Arrays.asList(SITE_URL, REMOVE_SESSION));
         UserURLs.urls.addAll(Arrays.asList(CONNECTED_URL));
         AdminURLs.urls.addAll(Arrays.asList(ALL_USER_URL, ADD_USER_URL));
     }

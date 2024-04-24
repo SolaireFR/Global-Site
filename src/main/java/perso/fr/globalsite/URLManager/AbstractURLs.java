@@ -5,8 +5,9 @@ import java.util.List;
 public abstract class AbstractURLs {
 
     protected static boolean listContainURL(List<String> urls, String urlToTest) {
+        urlToTest = urlToTest.replaceAll("/", "");
         for (String url : urls) {
-            if (urlToTest.equals(url))
+            if (urlToTest.equals(url.replaceAll("/", "")))
                 return true;
         }
         return false;
