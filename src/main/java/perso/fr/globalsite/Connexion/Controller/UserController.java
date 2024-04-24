@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping(URLManager.LOGIN_URL)
     public String getLogin() {
-        return "login";
+        return "Connexion/login";
     }
 
     @PostMapping(URLManager.LOGIN_URL)

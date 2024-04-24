@@ -10,6 +10,7 @@ import perso.fr.globalsite.Connexion.Service.URLManager;
 import perso.fr.globalsite.URLManager.PublicURL;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,9 @@ public class MainFilter extends HttpFilter {
             HttpServletRequest req,
             HttpServletResponse res,
             FilterChain chain) throws IOException, ServletException {
+
+        URLManager.init();
+        System.out.println(PublicURL.PrintURLs());
 
         String requestURI = req.getRequestURI();
 
@@ -64,7 +68,8 @@ public class MainFilter extends HttpFilter {
     }
 
     private boolean IsPublicURL(String fullURL) {
-        for(String publicURL : PublicURL.urls) {
+        List<String> urls = PublicURL.urls;
+        for(String publicURL : urls) {
             if (fullURL.contains(publicURL))
                 return true;
         }
