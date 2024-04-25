@@ -1,20 +1,19 @@
 package perso.fr.globalsite.Connexion.Controller;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import perso.fr.globalsite.Connexion.Entity.User;
 import perso.fr.globalsite.Connexion.Entity.Repository.UserRepository;
+import perso.fr.globalsite.Connexion.Service.TokenManager;
 import perso.fr.globalsite.Connexion.Service.URLManager;
 
 @Controller
@@ -33,7 +32,7 @@ public class UserController {
             HttpServletRequest req,
             HttpServletResponse res,
             @RequestParam("email") String email,
-            @RequestParam("password") String password) throws NoSuchAlgorithmException, IOException {
+            @RequestParam("password") String password) throws Exception {
 
         System.out.println("Email: " + email);
         System.out.println("Password: " + password);
@@ -45,7 +44,8 @@ public class UserController {
         if (bddUser != null) {
             if (tmpUser.getEncodedPassword().equals(bddUser.getEncodedPassword())) {
                 HttpSession session = req.getSession(true);
-                session.setAttribute("email", email);
+                String sessionID = RequestContextHolder.currentRequestAttributes().getSessionId();
+                session.setAttribute("token", TokenManager.generateToken(email, sessionID, bddUser.getEncodedPassword()));
                 // On redirige vers l'endroit où l'utilisateur souhaiter aller
                 String previousURL = URLManager.getPreviousURL();
                 if (previousURL == null)

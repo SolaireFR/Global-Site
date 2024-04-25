@@ -76,6 +76,9 @@ public class MainFilter extends HttpFilter {
 
         } catch (ServletException se) {
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
