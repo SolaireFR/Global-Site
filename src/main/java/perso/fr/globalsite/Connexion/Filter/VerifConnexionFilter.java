@@ -2,6 +2,7 @@ package perso.fr.globalsite.Connexion.Filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +24,8 @@ public class VerifConnexionFilter {
         HttpSession session = req.getSession(false);
         if (session != null) {
             String token = "" + session.getAttribute("token");
-            return TokenManager.isTokenValid(token, userRepository);
+            String sessionID = RequestContextHolder.currentRequestAttributes().getSessionId();
+            return TokenManager.isTokenValid(token, userRepository, sessionID);
         }
 
         else

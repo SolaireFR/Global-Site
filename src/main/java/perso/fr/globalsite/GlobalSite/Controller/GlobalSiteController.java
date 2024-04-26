@@ -23,6 +23,11 @@ public class GlobalSiteController {
     @Autowired
     private UserRepository userRepository;
 
+    /*@GetMapping("/**")
+    public String allURL() {
+        return "redirect:"+URLManager.SITE_URL;
+    }*/
+
     @GetMapping(URLManager.SITE_URL)
     public ModelAndView getHome() {
         ModelAndView modelAndView = new ModelAndView("GlobalSite/home");

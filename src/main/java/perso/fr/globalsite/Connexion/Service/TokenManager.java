@@ -39,7 +39,7 @@ public class TokenManager {
         return data;
     }
 
-    public static boolean isTokenValid(String token, UserRepository userRepository) throws Exception {
+    public static boolean isTokenValid(String token, UserRepository userRepository, String sessionID) throws Exception {
         String[] parts = token.split(SEPARATOR);
 
         if (parts.length != 3) {
@@ -66,10 +66,8 @@ public class TokenManager {
             return false; // Token expiré
         }
 
-        // Vérifier si les tokens générés correspondent
-        System.out.println(tokenEmail);
-        System.out.println(tokenSessionId);
-        return true;
+        // Vérifier si les tokens générés correspondent à l'ID de session
+        return tokenSessionId.equals(sessionID);
     }
 
     public static String getTokenEmail(String token) throws Exception {
