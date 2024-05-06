@@ -1,72 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
-
-<head th:insert="~{base :: global-site-head}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
-
 <body>
-    <style type="text/css">
-        .section-error {
-            font-family: Tahoma, Arial, sans-serif;
-        }
-
-        .section-error h1,
-        .section-error h2,
-        .section-error h3,
-        .section-error  b {
-            color: white;
-            background-color: #525D76;
-        }
-
-        .section-error h1 {
-            font-size: 22px;
-        }
-
-        .section-error h2 {
-            font-size: 16px;
-        }
-
-        .section-error h3 {
-            font-size: 14px;
-        }
-
-        .section-error p {
-            font-size: 12px;
-        }
-
-        .section-error a {
-            color: black;
-        }
-
-        .section-error .line {
-            height: 1px;
-            background-color: #525D76;
-            border: none;
-        }
-    </style>
-
-    <header th:insert="~{base :: global-site-header}"></header>
-
-    <h2>IL LOVE MY SITE !!!</h2>
-    <section class="section-error">
-        <h1>HTTP Status 404 – Not Found</h1>
-        <hr class="line">
-        <p><b>Type</b> Status Report</p>
-        <p><b>Message</b> No static resource test.</p>
-        <p><b>Description</b> The origin server did not find a current representation for the target resource or is not
-            willing to disclose that one exists.</p>
-        <hr class="line">
-        <h3>Apache Tomcat/10.1.20</h3>
-    </section>
-
-    <table>
-        <tr th:each="var : ${#vars}">
-            <td th:text="${var.key}"></td>
-            <td th:text="${var.value}"></td>
-        </tr>
-    </table>
-
-    <footer th:insert="~{base :: global-site-footer}"></footer>
+    <h1 style="color: red;">ERROR !!!</h1>
 </body>
-
 </html>
