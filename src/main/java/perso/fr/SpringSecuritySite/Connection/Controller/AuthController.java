@@ -21,7 +21,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/index")
+    @GetMapping(value = {"/index", "/index/"})
     public String main() {
         return "index";
     }
@@ -34,6 +34,7 @@ public class AuthController {
         return "register";
     }
 
+    @SuppressWarnings("null")
     @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
                                BindingResult result,
