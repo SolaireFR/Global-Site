@@ -23,7 +23,7 @@ public class AuthController {
 
     @GetMapping(value = {"/index", "/index/"})
     public String main() {
-        return "index";
+        return "Connection/index";
     }
 
     @GetMapping("/register")
@@ -31,7 +31,7 @@ public class AuthController {
         // create model object to store form data
         UserDto user = new UserDto();
         model.addAttribute("user", user);
-        return "register";
+        return "Connection/register";
     }
 
     @SuppressWarnings("null")
@@ -59,11 +59,11 @@ public class AuthController {
     public String users(Model model){
         List<UserDto> users = userService.findAllUsers();
         model.addAttribute("users", users);
-        return "users";
+        return "Connection/users";
     }
 
     @GetMapping("/login")
     public String login(){
-        return "login";
+        return "Connection/login";
     }
 }
