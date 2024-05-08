@@ -3,7 +3,7 @@ package perso.fr.SpringSecuritySite.Connection.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import perso.fr.SpringSecuritySite.Connection.Dto.UserDto;
+import perso.fr.SpringSecuritySite.Connection.Dto.UserRegisterDto;
 import perso.fr.SpringSecuritySite.Connection.Entity.Role;
 import perso.fr.SpringSecuritySite.Connection.Entity.User;
 import perso.fr.SpringSecuritySite.Connection.Entity.Repository.RoleRepository;
@@ -29,10 +29,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void saveUser(UserDto userDto) {
+    public void saveUser(UserRegisterDto userDto) {
         User user = new User();
-        user.setName(userDto.getFirstName() + " " + userDto.getLastName());
+        
         user.setEmail(userDto.getEmail());
+
+        if(user.getDisplayName() == null || user.getDisplayName().isEmpty()) 
+            user.setDisplayName(user.getEmail().split("@")[0]);
+
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
@@ -50,18 +54,16 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserDto> findAllUsers() {
+    public List<UserRegisterDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map((user) -> mapToUserDto(user))
                 .collect(Collectors.toList());
     }
 
-    private UserDto mapToUserDto(User user){
-        UserDto userDto = new UserDto();
-        String[] str = user.getName().split(" ");
-        userDto.setFirstName(str[0]);
-        userDto.setLastName(str[1]);
+    private UserRegisterDto mapToUserDto(User user){
+        UserRegisterDto userDto = new UserRegisterDto();
+        userDto.setDisplayName(user.getDisplayName());
         userDto.setEmail(user.getEmail());
         return userDto;
     }

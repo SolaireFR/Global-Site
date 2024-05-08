@@ -13,7 +13,8 @@
     <header th:insert="~{Connection/base :: global-site-header}"></header>
 
     <div class="container">
-        <h1>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h1>
+        <h1>Welcome, <span th:text="${#authentication.principal.username}"></span> !</h1>
+        <span th:text="${#authentication.principal}"></span>
 
         <h2>Your Roles:</h2>
         <ul>

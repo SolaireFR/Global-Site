@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    
+
     <header th:insert="~{Connection/base :: global-site-header}"></header>
 
     <div class="container">
@@ -26,29 +26,24 @@
                 <div class="card-body">
                     <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
                         <div class="form-group mb-3">
-                            <label class="form-label">First Name</label>
-                            <input class="form-control" id="firstName" name="firstName" placeholder="Enter first name"
-                                th:field="*{firstName}" type="text" />
-                            <p th:errors="*{firstName}" class="text-danger" th:if="${#fields.hasErrors('firstName')}">
+                            <label class="form-label">Display Name</label>
+                            <input class="form-control" id="displayName" name="displayName" placeholder="Enter display name"
+                                th:field="*{displayName}" type="text" />
+                            <p th:errors="*{displayName}" class="text-danger" th:if="${#fields.hasErrors('displayName')}">
                             </p>
                         </div>
-
+    
                         <div class="form-group mb-3">
-                            <label class="form-label">Last Name</label>
-                            <input class="form-control" id="lastName" name="lastName" placeholder="Enter last name"
-                                th:field="*{lastName}" type="text" />
-                            <p th:errors="*{lastName}" class="text-danger" th:if="${#fields.hasErrors('lastName')}"></p>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label class="form-label">Email</label>
+                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                            <span class="text-muted">Required</span>
                             <input class="form-control" id="email" name="email" placeholder="Enter email address"
                                 th:field="*{email}" type="email" />
                             <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
                         </div>
-
+    
                         <div class="form-group mb-3">
-                            <label class="form-label">Password</label>
+                            <label class="form-label">Password <span class="text-danger">*</span></label>
+                            <span class="text-muted">Required</span>
                             <input class="form-control" id="password" name="password" placeholder="Enter password"
                                 th:field="*{password}" type="password" />
                             <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>

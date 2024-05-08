@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
-import perso.fr.SpringSecuritySite.Connection.Dto.UserDto;
+import perso.fr.SpringSecuritySite.Connection.Dto.UserRegisterDto;
 import perso.fr.SpringSecuritySite.Connection.Entity.User;
 import perso.fr.SpringSecuritySite.Connection.Service.IUserService;
 
@@ -29,14 +29,14 @@ public class AuthController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
         // create model object to store form data
-        UserDto user = new UserDto();
+        UserRegisterDto user = new UserRegisterDto();
         model.addAttribute("user", user);
         return "Connection/register";
     }
 
     @SuppressWarnings("null")
     @PostMapping("/register/save")
-    public String registration(@Valid @ModelAttribute("user") UserDto userDto,
+    public String registration(@Valid @ModelAttribute("user") UserRegisterDto userDto,
                                BindingResult result,
                                Model model){
         User existingUser = userService.findUserByEmail(userDto.getEmail());
@@ -57,7 +57,7 @@ public class AuthController {
 
     @GetMapping("/users")
     public String users(Model model){
-        List<UserDto> users = userService.findAllUsers();
+        List<UserRegisterDto> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "Connection/users";
     }

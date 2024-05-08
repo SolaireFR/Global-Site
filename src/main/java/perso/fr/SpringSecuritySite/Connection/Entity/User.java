@@ -1,5 +1,7 @@
 package perso.fr.SpringSecuritySite.Connection.Entity;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,21 +29,26 @@ import lombok.Setter;
 @Table(name="users")
 public class User
 {
-    @SuppressWarnings("unused")
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable=false)
-    private String name;
+    private String displayName;
 
     @Column(nullable=false, unique=true)
     private String email;
 
     @Column(nullable=false)
     private String password;
+
+    @Column(nullable=false, insertable=false, updatable=false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime creation;
+
+    private Date lastConnection;
+
+    @Column(nullable=false, columnDefinition="BOOLEAN DEFAULT FALSE")
+    private boolean locked;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
