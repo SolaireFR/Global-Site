@@ -3,6 +3,7 @@ package perso.fr.SpringSecuritySite.Connection.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import perso.fr.SpringSecuritySite.Connection.Dto.UserDataDto;
 import perso.fr.SpringSecuritySite.Connection.Dto.UserRegisterDto;
 import perso.fr.SpringSecuritySite.Connection.Entity.Role;
 import perso.fr.SpringSecuritySite.Connection.Entity.User;
@@ -54,14 +55,28 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public UserDataDto findUserDataByEmail(String Email) {
+        User user = userRepository.findByEmail(Email);
+        return mapToUserDataDto(user);
+    }
+
+    private UserDataDto mapToUserDataDto(User user){
+        UserDataDto userDto = new UserDataDto();
+        userDto.setDisplayName(user.getDisplayName());
+        userDto.setEmail(user.getEmail());
+        userDto.setCreation(user.getCreation());
+        return userDto;
+    }
+
+    @Override
     public List<UserRegisterDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map((user) -> mapToUserDto(user))
+                .map((user) -> mapToUserRegisterDto(user))
                 .collect(Collectors.toList());
     }
 
-    private UserRegisterDto mapToUserDto(User user){
+    private UserRegisterDto mapToUserRegisterDto(User user){
         UserRegisterDto userDto = new UserRegisterDto();
         userDto.setDisplayName(user.getDisplayName());
         userDto.setEmail(user.getEmail());

@@ -1,6 +1,5 @@
 package perso.fr.SpringSecuritySite.Connection.Dto;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDataDto {
-    
+
     private String displayName;
 
     private String email;

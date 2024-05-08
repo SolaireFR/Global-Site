@@ -13,13 +13,29 @@
     <header th:insert="~{Connection/base :: global-site-header}"></header>
 
     <div class="container">
-        <h1>Welcome, <span th:text="${#authentication.principal.username}"></span> !</h1>
-        <span th:text="${#authentication.principal}"></span>
-
-        <h2>Your Roles:</h2>
-        <ul>
-            <li th:each="authority : ${#authentication.authorities}" th:text="${authority.authority}"></li>
-        </ul>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">User Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="displayName">Display Name:</label>
+                            <p id="displayName" th:text="${user.displayName}" class="form-control"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <p id="email" th:text="${user.email}" class="form-control"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="creation">Creation Date:</label>
+                            <p id="creation" th:text="${#temporals.format(user.creation, 'dd/MM/yyyy HH:mm:ss')}" class="form-control"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 

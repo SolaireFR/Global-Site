@@ -3,6 +3,9 @@ package perso.fr.SpringSecuritySite.Connection.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
+import perso.fr.SpringSecuritySite.Connection.Dto.UserDataDto;
 import perso.fr.SpringSecuritySite.Connection.Dto.UserRegisterDto;
 import perso.fr.SpringSecuritySite.Connection.Entity.User;
 import perso.fr.SpringSecuritySite.Connection.Service.IUserService;
@@ -68,7 +72,17 @@ public class AuthController {
     }
 
     @GetMapping("/account")
-    public String account(){
+    public String account(Model model){
+        String email = "not_found";
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            email = userDetails.getUsername();
+        }
+
+        UserDataDto user = userService.findUserDataByEmail(email);
+        model.addAttribute("user", user);
         return "Connection/account";
     }
 }
