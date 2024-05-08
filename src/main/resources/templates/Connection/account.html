@@ -34,6 +34,14 @@
                         </div>
                     </div>
                 </div>
+                <form method="post" role="form" th:action="@{/account/delete}">
+                    <div class="form-group mb-3">
+                        <!-- Change the type attribute to "submit" -->
+                        <button class="form-control btn btn-danger" id="remove" name="remove" type="submit">
+                            Delete Account
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
