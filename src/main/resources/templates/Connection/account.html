@@ -11,11 +11,14 @@
 <body>
 
     <header th:insert="~{Connection/base :: global-site-header}"></header>
-    
+
     <div class="container">
-        <div class="row">
-            <h1 class="text-center"> Registration and Login System </h1>
-        </div>
+        <h1>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h1>
+
+        <h2>Your Roles:</h2>
+        <ul>
+            <li th:each="authority : ${#authentication.authorities}" th:text="${authority.authority}"></li>
+        </ul>
     </div>
 </body>
 

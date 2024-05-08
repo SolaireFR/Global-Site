@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.validation.Valid;
 import perso.fr.SpringSecuritySite.Connection.Dto.UserDto;
 import perso.fr.SpringSecuritySite.Connection.Entity.User;
-import perso.fr.SpringSecuritySite.Connection.Service.UserService;
+import perso.fr.SpringSecuritySite.Connection.Service.IUserService;
 
 @Controller
 public class AuthController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @GetMapping(value = {"/index", "/index/"})
     public String main() {
@@ -65,5 +65,10 @@ public class AuthController {
     @GetMapping("/login")
     public String login(){
         return "Connection/login";
+    }
+
+    @GetMapping("/account")
+    public String account(){
+        return "Connection/account";
     }
 }

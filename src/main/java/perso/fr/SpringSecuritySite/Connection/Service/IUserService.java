@@ -5,7 +5,7 @@ import java.util.List;
 import perso.fr.SpringSecuritySite.Connection.Dto.UserDto;
 import perso.fr.SpringSecuritySite.Connection.Entity.User;
 
-public interface UserService {
+public interface IUserService {
     void saveUser(UserDto userDto);
 
     User findUserByEmail(String email);
