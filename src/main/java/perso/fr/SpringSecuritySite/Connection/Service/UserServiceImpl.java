@@ -23,8 +23,8 @@ public class UserServiceImpl implements IUserService {
     private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository,
-                           RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder) {
+            RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -33,17 +33,19 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void saveUser(UserRegisterDto userDto) {
         User user = new User();
-        
-        user.setEmail(userDto.getEmail());
 
-        if(user.getDisplayName() == null || user.getDisplayName().isEmpty()) 
+        if (userDto.getDisplayName() == null || userDto.getDisplayName().isEmpty())
             user.setDisplayName(user.getEmail().split("@")[0]);
+        else
+            user.setDisplayName(userDto.getDisplayName());
+
+        user.setEmail(userDto.getEmail());
 
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         Role role = roleRepository.findByName("ROLE_USER");
-        if(role == null){
+        if (role == null) {
             role = addRoleUser();
         }
         user.setRoles(Arrays.asList(role));
@@ -61,7 +63,7 @@ public class UserServiceImpl implements IUserService {
         return mapToUserDataDto(user);
     }
 
-    private UserDataDto mapToUserDataDto(User user){
+    private UserDataDto mapToUserDataDto(User user) {
         UserDataDto userDto = new UserDataDto();
         userDto.setDisplayName(user.getDisplayName());
         userDto.setEmail(user.getEmail());
@@ -77,14 +79,14 @@ public class UserServiceImpl implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    private UserRegisterDto mapToUserRegisterDto(User user){
+    private UserRegisterDto mapToUserRegisterDto(User user) {
         UserRegisterDto userDto = new UserRegisterDto();
         userDto.setDisplayName(user.getDisplayName());
         userDto.setEmail(user.getEmail());
         return userDto;
     }
 
-    private Role addRoleUser(){
+    private Role addRoleUser() {
         Role role = new Role();
         role.setName("ROLE_USER");
         return roleRepository.save(role);
