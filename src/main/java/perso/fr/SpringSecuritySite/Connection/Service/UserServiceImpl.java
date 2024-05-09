@@ -3,6 +3,7 @@ package perso.fr.SpringSecuritySite.Connection.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import perso.fr.SpringSecuritySite.Connection.Dto.UserDataDto;
 import perso.fr.SpringSecuritySite.Connection.Dto.UserRegisterDto;
 import perso.fr.SpringSecuritySite.Connection.Entity.Role;
@@ -87,5 +88,19 @@ public class UserServiceImpl implements IUserService {
         Role role = new Role();
         role.setName("ROLE_USER");
         return roleRepository.save(role);
+    }
+
+    @Override
+    @Transactional
+    public Boolean deleteUserByEmail(String email) {
+        try {
+            // Supprimer l'utilisateur de la base de données en utilisant le UserRepository
+            Integer removed = userRepository.deleteByEmail(email);
+            return removed > 0; // La suppression a réussi
+        } catch (Exception e) {
+            System.out.println("Suppression utilisateur echoue !");
+            e.printStackTrace();
+            return false; // La suppression a échoué
+        }
     }
 }

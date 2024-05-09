@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import perso.fr.SpringSecuritySite.Connection.Dto.UserDataDto;
 import perso.fr.SpringSecuritySite.Connection.Dto.UserRegisterDto;
@@ -87,8 +88,19 @@ public class AuthController {
     }
 
     @PostMapping("/account/delete")
-    public String deleteAccount(Model model) {
-        model.addAttribute("userRemoved", true);
-        return "redirect:/index?message=userRemoved";
+    public String deleteAccount(HttpSession session) {
+        // Récupérer l'adresse e-mail de l'utilisateur connecté
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName(); // L'adresse e-mail est le nom d'utilisateur
+
+        // Déconnecter l'utilisateur en invalidant la session
+        session.invalidate();
+
+        // Supprimer l'utilisateur de la base de données
+        boolean wasRemoved = userService.deleteUserByEmail(email);
+        if (wasRemoved)
+            return "redirect:/index?message=userRemoved";
+        else
+            return "redirect:/account?message=userNotRemoved";
     }
 }
