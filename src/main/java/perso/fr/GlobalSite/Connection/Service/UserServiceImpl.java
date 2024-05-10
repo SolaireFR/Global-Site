@@ -1,15 +1,15 @@
-package perso.fr.SpringSecuritySite.Connection.Service;
+package perso.fr.GlobalSite.Connection.Service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import perso.fr.SpringSecuritySite.Connection.Dto.UserDataDto;
-import perso.fr.SpringSecuritySite.Connection.Dto.UserRegisterDto;
-import perso.fr.SpringSecuritySite.Connection.Entity.Role;
-import perso.fr.SpringSecuritySite.Connection.Entity.User;
-import perso.fr.SpringSecuritySite.Connection.Entity.Repository.RoleRepository;
-import perso.fr.SpringSecuritySite.Connection.Entity.Repository.UserRepository;
+import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
+import perso.fr.GlobalSite.Connection.Dto.UserRegisterDto;
+import perso.fr.GlobalSite.Connection.Entity.Role;
+import perso.fr.GlobalSite.Connection.Entity.User;
+import perso.fr.GlobalSite.Connection.Entity.Repository.RoleRepository;
+import perso.fr.GlobalSite.Connection.Entity.Repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;

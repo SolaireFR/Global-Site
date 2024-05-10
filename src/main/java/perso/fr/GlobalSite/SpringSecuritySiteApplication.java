@@ -1,4 +1,4 @@
-package perso.fr.SpringSecuritySite;
+package perso.fr.GlobalSite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

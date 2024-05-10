@@ -1,4 +1,4 @@
-package perso.fr.SpringSecuritySite.Connection.Dto;
+package perso.fr.GlobalSite.Connection.Dto;
 
 import java.time.LocalDateTime;
 
