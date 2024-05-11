@@ -62,7 +62,7 @@ public class AuthController {
 
     @GetMapping("/users")
     public String users(Model model) {
-        List<UserRegisterDto> users = userService.findAllUsers();
+        List<UserDataDto> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "Connection/users";
     }

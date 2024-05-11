@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ import perso.fr.GlobalSite.Connection.Entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name="advices")
 public class Advice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

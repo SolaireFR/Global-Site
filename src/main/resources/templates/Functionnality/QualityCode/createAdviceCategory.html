@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" role="form" th:action="@{/QualityCode/adviceCategories/new}"  th:object="${adviceCategory}">
+        <input type="text" name="name" placeholder="name" th:field="*{name}">
+
+        <input type="submit" value="New">
+    </form>
+
+</body>
+</html>

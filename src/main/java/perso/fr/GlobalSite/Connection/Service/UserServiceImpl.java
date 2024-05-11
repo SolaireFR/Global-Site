@@ -63,7 +63,7 @@ public class UserServiceImpl implements IUserService {
         return mapToUserDataDto(user);
     }
 
-    private UserDataDto mapToUserDataDto(User user) {
+    public UserDataDto mapToUserDataDto(User user) {
         UserDataDto userDto = new UserDataDto();
         userDto.setDisplayName(user.getDisplayName());
         userDto.setEmail(user.getEmail());
@@ -72,18 +72,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserRegisterDto> findAllUsers() {
+    public List<UserDataDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map((user) -> mapToUserRegisterDto(user))
+                .map((user) -> mapToUserDataDto(user))
                 .collect(Collectors.toList());
-    }
-
-    private UserRegisterDto mapToUserRegisterDto(User user) {
-        UserRegisterDto userDto = new UserRegisterDto();
-        userDto.setDisplayName(user.getDisplayName());
-        userDto.setEmail(user.getEmail());
-        return userDto;
     }
 
     private Role addRoleUser() {

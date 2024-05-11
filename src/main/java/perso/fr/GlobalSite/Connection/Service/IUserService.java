@@ -13,7 +13,7 @@ public interface IUserService {
 
     UserDataDto findUserDataByEmail(String email);
 
-    List<UserRegisterDto> findAllUsers();
+    List<UserDataDto> findAllUsers();
 
     Boolean deleteUserByEmail(String email);
 }
