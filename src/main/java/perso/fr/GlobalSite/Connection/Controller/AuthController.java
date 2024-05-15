@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -19,6 +20,7 @@ import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
 import perso.fr.GlobalSite.Connection.Dto.UserRegisterDto;
 import perso.fr.GlobalSite.Connection.Entity.User;
 import perso.fr.GlobalSite.Connection.Service.IUserService;
+import perso.fr.GlobalSite.Connection.Service.MailService;
 
 @Controller
 public class AuthController {
@@ -102,5 +104,21 @@ public class AuthController {
             return "redirect:/index?message=userRemoved";
         else
             return "redirect:/account?message=userNotRemoved";
+    }
+
+    @GetMapping("/mail")
+    public String getMail() {
+        return "mail";
+    }
+
+    @Autowired
+    private MailService mailService;
+
+    @PostMapping("/send-mail")
+    public String sendEmail(@RequestParam("to") String to,
+                            @RequestParam("subject") String subject,
+                            @RequestParam("body") String body) {
+        mailService.sendEmail(to, subject, body);
+        return "redirect:/mail?EmailSend=true";
     }
 }

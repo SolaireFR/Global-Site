@@ -27,6 +27,8 @@ public class SpringSecurity {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((authorize) -> authorize
+				.requestMatchers("/send-mail").permitAll()
+				.requestMatchers("/mail*").permitAll()
 				.requestMatchers("/error/**").permitAll()
 				.requestMatchers("/register/**").permitAll()
 				.requestMatchers("/index", "/index/").permitAll()
