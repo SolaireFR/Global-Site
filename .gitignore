@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Secures properties ###
+src/main/resources/application-secure.properties
