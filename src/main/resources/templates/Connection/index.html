@@ -20,7 +20,13 @@
             <div th:case="userRemoved" class="alert alert-success" role="alert">
                 Your user has been removed.
             </div>
+            <div th:case="userVerified" class="alert alert-success" role="alert">
+                Your user has been verified.<br>
+                <strong>Welcome ^_^</strong><br>
+                Log into the app <a class="alert-link" th:href="@{/login}">here</a>.
+            </div>
         </div>
+        <div th:if="${param.error != null}" class="alert alert-danger" role="alert" th:text="${#strings.toString(param.error)}"></div>
     </div>
 </body>
 

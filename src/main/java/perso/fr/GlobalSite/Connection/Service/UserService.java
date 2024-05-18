@@ -8,34 +8,43 @@ import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
 import perso.fr.GlobalSite.Connection.Dto.UserRegisterDto;
 import perso.fr.GlobalSite.Connection.Entity.Role;
 import perso.fr.GlobalSite.Connection.Entity.User;
+import perso.fr.GlobalSite.Connection.Entity.VerificationToken;
 import perso.fr.GlobalSite.Connection.Entity.Repository.RoleRepository;
 import perso.fr.GlobalSite.Connection.Entity.Repository.UserRepository;
+import perso.fr.GlobalSite.Connection.Entity.Repository.VerificationTokenRepository;
+import perso.fr.GlobalSite.Security.GlobalVars;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserService implements IUserService {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private VerificationTokenRepository verificationTokenRepository;
     private PasswordEncoder passwordEncoder;
+    private IMailService mailService;
 
-    public UserServiceImpl(UserRepository userRepository,
+    public UserService(UserRepository userRepository,
             RoleRepository roleRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            IMailService mailService,
+            VerificationTokenRepository verificationTokenRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mailService = mailService;
+        this.verificationTokenRepository = verificationTokenRepository;
     }
 
     @Override
-    public void saveUser(UserRegisterDto userDto) {
+    public void registerUser(UserRegisterDto userDto) {
         User user = new User();
 
         if (userDto.getDisplayName() == null || userDto.getDisplayName().isEmpty())
-            user.setDisplayName(user.getEmail().split("@")[0]);
+            user.setDisplayName(userDto.getEmail().split("@")[0]);
         else
             user.setDisplayName(userDto.getDisplayName());
 
@@ -49,7 +58,45 @@ public class UserServiceImpl implements IUserService {
             role = addRoleUser();
         }
         user.setRoles(Arrays.asList(role));
+
+        User createdUser = userRepository.save(user);
+
+        VerificationToken verificationToken = createVerificationToken(createdUser); 
+
+        sendVerificationMail(createdUser, verificationToken.getToken());
+    }
+
+    private void sendVerificationMail(User user, String token) {
+        String destinationEMail = user.getEmail();
+        String subject = "GlobalSite - Registration Confirmation";
+
+        String confirmationUrl = GlobalVars.mainUrl+"userVerification?token=" + token;
+        String body = "Cliquer sur le lien suivant pour verifier votre compte :\r\n" + confirmationUrl;
+        mailService.sendEmail(destinationEMail, subject, body);
+    }
+
+    @Override
+    public VerificationToken createVerificationToken(User user) {
+        VerificationToken token = new VerificationToken(user);
+        VerificationToken newToken = verificationTokenRepository.save(token);
+        return newToken;
+    }
+
+    @Override
+    public VerificationToken getVerificationToken(String VerificationToken) {
+        return verificationTokenRepository.findByToken(VerificationToken);
+    }
+
+    @Override
+    public void enableUser(User user) {
+        user.setEnabled(true);
         userRepository.save(user);
+    }
+
+    private Role addRoleUser() {
+        Role role = new Role();
+        role.setName("ROLE_USER");
+        return roleRepository.save(role);
     }
 
     @Override
@@ -77,12 +124,6 @@ public class UserServiceImpl implements IUserService {
         return users.stream()
                 .map((user) -> mapToUserDataDto(user))
                 .collect(Collectors.toList());
-    }
-
-    private Role addRoleUser() {
-        Role role = new Role();
-        role.setName("ROLE_USER");
-        return roleRepository.save(role);
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import perso.fr.GlobalSite.Connection.Entity.User;
-import perso.fr.GlobalSite.Connection.Service.UserServiceImpl;
+import perso.fr.GlobalSite.Connection.Service.UserService;
 import perso.fr.GlobalSite.Functionnality.QualityCode.Dto.AdviceDto;
 import perso.fr.GlobalSite.Functionnality.QualityCode.Entity.Advice;
 import perso.fr.GlobalSite.Functionnality.QualityCode.Entity.Repository.AdviceRepository;
@@ -19,7 +19,7 @@ public class AdviceService implements IAdviceService {
     private AdviceRepository adviceRepository;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Override
     public boolean saveAdvice(AdviceDto adviceDto) {

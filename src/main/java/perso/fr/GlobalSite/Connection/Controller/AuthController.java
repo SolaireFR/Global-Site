@@ -1,5 +1,6 @@
 package perso.fr.GlobalSite.Connection.Controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import jakarta.validation.Valid;
 import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
 import perso.fr.GlobalSite.Connection.Dto.UserRegisterDto;
 import perso.fr.GlobalSite.Connection.Entity.User;
+import perso.fr.GlobalSite.Connection.Entity.VerificationToken;
 import perso.fr.GlobalSite.Connection.Service.IUserService;
 import perso.fr.GlobalSite.Connection.Service.MailService;
 
@@ -28,7 +30,7 @@ public class AuthController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping(value = { "/index", "/index/" })
+    @GetMapping("/")
     public String main() {
         return "Connection/index";
     }
@@ -58,8 +60,27 @@ public class AuthController {
             return "Connection/register";
         }
 
-        userService.saveUser(userDto);
+        userService.registerUser(userDto);
         return "redirect:/register?success";
+    }
+
+    @GetMapping("/userVerification")
+    public String confirmRegistration(Model model, @RequestParam("token") String token) {
+    
+        VerificationToken verificationToken = userService.getVerificationToken(token);
+        if (verificationToken == null) {
+            return "redirect:/?error=Le_token_est_invalide";
+        }
+        
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            return "redirect:/?error=Le_token_est_expire";
+        }
+        
+        // Verifier l'utilisateur
+        userService.enableUser(user);
+        return "redirect:/?message=userVerified"; 
     }
 
     @GetMapping("/users")
@@ -101,7 +122,7 @@ public class AuthController {
         // Supprimer l'utilisateur de la base de données
         boolean wasRemoved = userService.deleteUserByEmail(email);
         if (wasRemoved)
-            return "redirect:/index?message=userRemoved";
+            return "redirect:/?message=userRemoved";
         else
             return "redirect:/account?message=userNotRemoved";
     }
@@ -116,8 +137,8 @@ public class AuthController {
 
     @PostMapping("/send-mail")
     public String sendEmail(@RequestParam("to") String to,
-                            @RequestParam("subject") String subject,
-                            @RequestParam("body") String body) {
+            @RequestParam("subject") String subject,
+            @RequestParam("body") String body) {
         mailService.sendEmail(to, subject, body);
         return "redirect:/mail?EmailSend=true";
     }

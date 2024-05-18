@@ -50,6 +50,9 @@ public class User
     @Column(nullable=false, columnDefinition="BOOLEAN DEFAULT FALSE")
     private boolean locked;
 
+    @Column(nullable=false, columnDefinition="BOOLEAN DEFAULT FALSE")
+    private boolean isEnabled;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
             name="users_roles",
