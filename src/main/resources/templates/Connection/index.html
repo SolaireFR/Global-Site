@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Registration and Login System</title>
+    <title th:text="#{account.title}">Registration and Login System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
@@ -14,16 +14,16 @@
 
     <div class="container">
         <div class="row">
-            <h1 class="text-center"> Registration and Login System </h1>
+            <h1 th:text="#{account.title}" class="text-center">Registration and Login System</h1>
         </div>
         <div th:if="${param.message != null}" th:switch="${#strings.toString(param.message)}">
-            <div th:case="userRemoved" class="alert alert-success" role="alert">
+            <div th:text="#{messages.user.verified.removed}" th:case="userRemoved" class="alert alert-success" role="alert">
                 Your user has been removed.
             </div>
             <div th:case="userVerified" class="alert alert-success" role="alert">
-                Your user has been verified.<br>
-                <strong>Welcome ^_^</strong><br>
-                Log into the app <a class="alert-link" th:href="@{/login}">here</a>.
+                <p th:text="#{messages.user.verified}">Your user has been verified.</p><br>
+                <strong th:text="#{messages.user.verified.welcome}">Welcome ^_^</strong><br>
+                <a th:text="#{messages.user.verified.login}" class="alert-link" th:href="@{/login}">Log into the app here.</a>
             </div>
         </div>
         <div th:if="${param.error != null}" class="alert alert-danger" role="alert" th:text="${#strings.toString(param.error)}"></div>
