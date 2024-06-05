@@ -2,10 +2,10 @@ package perso.fr.GlobalSite.Connection.Controller;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
+//import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+//import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,8 +29,8 @@ import perso.fr.GlobalSite.Connection.Service.MailService;
 @Controller
 public class AuthController {
 
-    @Autowired
-    private MessageSource messages;
+    //@Autowired
+    //private MessageSource messages;
 
     @Autowired
     private IUserService userService;
