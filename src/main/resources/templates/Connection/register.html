@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -16,41 +16,41 @@
         <div class="row col-md-8 offset-md-2">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center">Registration</h2>
+                    <h2 class="text-center" th:text="#{register.form.title}">Registration</h2>
                 </div>
                 <div th:if="${param.success}">
-                    <div class="alert alert-info">
-                        You have successfully registered our app!
+                    <div class="alert alert-info" th:text="#{register.success}">
+                        You have successfully registered our app !
                     </div>
                 </div>
                 <div class="card-body">
                     <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
                         <div class="form-group mb-3">
-                            <label class="form-label">Display Name</label>
-                            <input class="form-control" id="displayName" name="displayName" placeholder="Enter display name"
+                            <label class="form-label" th:text="#{register.form.displayname}">Display Name</label>
+                            <input class="form-control" id="displayName" name="displayName" th:placeholder="#{register.form.displayname.placeholder}"
                                 th:field="*{displayName}" type="text" />
                             <p th:errors="*{displayName}" class="text-danger" th:if="${#fields.hasErrors('displayName')}">
                             </p>
                         </div>
     
                         <div class="form-group mb-3">
-                            <label class="form-label">Email <span class="text-danger">*</span></label>
-                            <span class="text-muted">Required</span>
-                            <input class="form-control" id="email" name="email" placeholder="Enter email address"
+                            <label class="form-label"><span th:text="#{register.form.email}">Email</span> <span class="text-danger">*</span></label>
+                            <span class="text-muted" th:text="#{register.form.required}">Required</span>
+                            <input class="form-control" id="email" name="email" th:placeholder="#{register.form.email.placeholder}"
                                 th:field="*{email}" type="email" />
                             <p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
                         </div>
     
                         <div class="form-group mb-3">
-                            <label class="form-label">Password <span class="text-danger">*</span></label>
-                            <span class="text-muted">Required</span>
-                            <input class="form-control" id="password" name="password" placeholder="Enter password"
+                            <label class="form-label"><span th:text="#{register.form.password}">Password</span> <span class="text-danger">*</span></label>
+                            <span class="text-muted" th:text="#{register.form.required}">Required</span>
+                            <input class="form-control" id="password" name="password" th:placeholder="#{register.form.password.placeholder}"
                                 th:field="*{password}" type="password" />
                             <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-primary" type="submit">Register</button>
-                            <span>Already registered? <a th:href="@{/login}">Login here</a></span>
+                            <button class="btn btn-primary" type="submit" th:text="#{register.form.submit}">Register</button>
+                            <span><span th:text="#{register.form.alreadyregistered}">Already registered ?</span> <a th:href="@{/login}" th:text="#{register.form.alreadyregistered.link}">Login here</a></span>
                         </div>
                     </form>
                 </div>

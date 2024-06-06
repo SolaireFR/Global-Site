@@ -2,10 +2,11 @@ package perso.fr.GlobalSite.Connection.Controller;
 
 import java.util.Calendar;
 import java.util.List;
-//import java.util.Locale;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,8 +30,8 @@ import perso.fr.GlobalSite.Connection.Service.MailService;
 @Controller
 public class AuthController {
 
-    //@Autowired
-    //private MessageSource messages;
+    @Autowired
+    private MessageSource messages;
 
     @Autowired
     private IUserService userService;
@@ -55,9 +56,9 @@ public class AuthController {
             Model model) {
         User existingUser = userService.findUserByEmail(userDto.getEmail());
 
+        Locale locale = LocaleContextHolder.getLocale();
         if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-            result.rejectValue("email", null,
-                    "There is already an account registered with the same email");
+            result.rejectValue("email", null, messages.getMessage("register.error.emailalreadyexist", null, locale));
         }
 
         if (result.hasErrors()) {
