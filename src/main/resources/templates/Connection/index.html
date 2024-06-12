@@ -14,7 +14,7 @@
 
     <div class="container">
         <div class="row">
-            <h1 th:text="#{account.title}" class="text-center">Registration and Login System</h1>
+            <h1 th:text="#{header.title}" class="text-center">Registration and Login System</h1>
         </div>
         <div th:if="${param.message != null}" th:switch="${#strings.toString(param.message)}">
             <div th:text="#{messages.user.verified.removed}" th:case="userRemoved" class="alert alert-success" role="alert">

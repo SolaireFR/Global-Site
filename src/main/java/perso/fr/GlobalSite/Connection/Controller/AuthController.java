@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
@@ -37,7 +38,7 @@ public class AuthController {
     private IUserService userService;
 
     @GetMapping("/")
-    public String main() {
+    public String main(HttpServletRequest request) {
         return "Connection/index";
     }
 
