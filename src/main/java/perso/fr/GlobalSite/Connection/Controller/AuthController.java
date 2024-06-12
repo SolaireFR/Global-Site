@@ -79,14 +79,18 @@ public class AuthController {
             return "redirect:/?error=Le_token_est_invalide";
         }
         
-        User user = verificationToken.getUser();
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             return "redirect:/?error=Le_token_est_expire";
         }
         
         // Verifier l'utilisateur
-        userService.enableUser(user);
+        User user = verificationToken.getUser();
+        if(user != null)
+            userService.enableUser(user);
+        else
+            return "redirect:/?error=Impossible_de_recupere_votre_profile";
+
         return "redirect:/?message=userVerified"; 
     }
 
