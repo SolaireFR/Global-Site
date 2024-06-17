@@ -71,6 +71,11 @@ public class AuthController {
         return "redirect:/register?success";
     }
 
+    @GetMapping("/register/token")
+    public String showTokenTuto() {
+        return "Connection/tutoToken";
+    }
+
     @GetMapping("/userVerification")
     public String confirmRegistration(Model model, @RequestParam("token") String token) {
     
