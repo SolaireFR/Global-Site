@@ -47,6 +47,7 @@ public class VerificationToken {
     @Column(unique=true, nullable=false)
     private String token;
   
+    /* Faire l'inverse ? */
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
