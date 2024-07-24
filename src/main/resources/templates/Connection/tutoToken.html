@@ -15,9 +15,30 @@
 
     <header th:insert="~{Connection/base :: global-site-header}"></header>
 
-    <div class="container">
-        <h1>Tuto Token</h1>
+    <div class="container mt-5">
+        <div th:if="${statusToken.getArrtibute() == null}">
+            <div class="alert alert-info">
+                <p>Welcome! Please follow the instructions to connect and use your token.</p>
+            </div>
+        </div>
+        <div th:if="${statusToken == 'connection'}">
+            <div class="alert alert-info">
+                <p th:text="'Your email is ' + ${email}"></p>
+                <p>Please follow the instructions to connect and use your token.</p>
+            </div>
+        </div>
+        <div th:if="${statusToken == 'validtoken'}">
+            <div class="alert alert-success">
+                <p>Token is valid! <a href="/login">Click here to login</a>.</p>
+            </div>
+        </div>
+        <div th:if="${statusToken == 'invalidtoken'}">
+            <div class="alert alert-danger">
+                <p>Token is invalid! <a href="/resendToken">Click here to request a new token</a>.</p>
+            </div>
+        </div>
     </div>
+    
 </body>
 
 </html>

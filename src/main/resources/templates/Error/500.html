@@ -13,7 +13,12 @@
     
     <header th:insert="~{Connection/base :: global-site-header}"></header>
 
-    <h1 style="color: red;">ERROR 500 !!!</h1>
+    <div class="container mt-5">
+        <div class="alert alert-danger">
+            <h1 style="color: red;">Error 500 - Internal Server Error</h1>
+            <p th:text="${errorMessage}"></p>
+        </div>
+    </div>
 </body>
 
 </html>
