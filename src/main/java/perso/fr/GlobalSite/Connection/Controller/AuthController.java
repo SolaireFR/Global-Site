@@ -51,7 +51,7 @@ public class AuthController {
     }
 
     @SuppressWarnings("null")
-    @PostMapping("/register/save")
+    @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("user") UserRegisterDto userDto,
             BindingResult result,
             Model model) {
@@ -68,7 +68,7 @@ public class AuthController {
         }
 
         userService.registerUser(userDto);
-        return "redirect:/register?success";
+        return "redirect:/register/token?success";
     }
 
     @GetMapping("/register/token")

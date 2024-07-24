@@ -18,13 +18,8 @@
                 <div class="card-header">
                     <h2 class="text-center" th:text="#{register.form.title}">Registration</h2>
                 </div>
-                <div th:if="${param.success}">
-                    <div class="alert alert-info" th:text="#{register.success}">
-                        You have successfully registered our app !
-                    </div>
-                </div>
                 <div class="card-body">
-                    <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
+                    <form method="post" role="form" th:action="@{/register}" th:object="${user}">
                         <div class="form-group mb-3">
                             <label class="form-label" th:text="#{register.form.displayname}">Display Name</label>
                             <input class="form-control" id="displayName" name="displayName" th:placeholder="#{register.form.displayname.placeholder}"

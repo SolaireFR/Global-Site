@@ -34,3 +34,7 @@ build/
 
 ### Secures properties ###
 src/main/resources/application-secure.properties
+
+### Logs ###
+/logs
+**.log

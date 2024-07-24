@@ -16,6 +16,11 @@
     <header th:insert="~{Connection/base :: global-site-header}"></header>
 
     <div class="container mt-5">
+        <div th:if="${param.success}">
+            <div class="alert alert-info" th:text="#{register.success}">
+                You have successfully registered our app !
+            </div>
+        </div>
         <div th:if="${statusToken.getArrtibute() == null}">
             <div class="alert alert-info">
                 <p>Welcome! Please follow the instructions to connect and use your token.</p>
