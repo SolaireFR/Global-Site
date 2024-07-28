@@ -1,0 +1,24 @@
+# docker-compose up -d
+# docker-compose exec spring bash
+# /setup.sh
+
+# If 8080 already in use :
+# netstat -aon | findstr :8080
+# tasklist | findstr [PID]
+
+networks:
+  mysql_default:
+    external: true
+
+services:
+  spring:
+    image: ubuntu:latest
+    volumes:
+      - ./setup.sh:/setup.sh
+      - ../../../Global-Site/:/root/Projects/Global-Site/
+    command: tail -f /dev/null
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - mysql_default

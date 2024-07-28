@@ -17,7 +17,7 @@
             <h1 th:text="#{header.title}" class="text-center">Registration and Login System</h1>
         </div>
         <div th:if="${param.message != null}" th:switch="${#strings.toString(param.message)}">
-            <div th:text="#{messages.user.verified.removed}" th:case="userRemoved" class="alert alert-success" role="alert">
+            <div th:text="#{messages.user.removed}" th:case="userRemoved" class="alert alert-success" role="alert">
                 Your user has been removed.
             </div>
             <div th:case="userVerified" class="alert alert-success" role="alert">
