@@ -24,7 +24,6 @@ import jakarta.validation.Valid;
 import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
 import perso.fr.GlobalSite.Connection.Dto.UserRegisterDto;
 import perso.fr.GlobalSite.Connection.Entity.User;
-import perso.fr.GlobalSite.Connection.Entity.VerificationToken;
 import perso.fr.GlobalSite.Connection.Service.IUserService;
 import perso.fr.GlobalSite.Connection.Service.MailService;
 
@@ -79,23 +78,17 @@ public class AuthController {
     @GetMapping("/userVerification")
     public String confirmRegistration(Model model, @RequestParam("token") String token) {
     
-        VerificationToken verificationToken = userService.getVerificationToken(token);
-        if (verificationToken == null) {
+        User user = userService.findUserWithToken(token);
+        if (user == null) {
             return "redirect:/?error=Le_token_est_invalide";
         }
         
         Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+        if ((user.getTokenExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             return "redirect:/?error=Le_token_est_expire";
         }
         
-        // Verifier l'utilisateur
-        User user = verificationToken.getUser();
-        if(user != null)
-            userService.enableUser(user);
-        else
-            return "redirect:/?error=Impossible_de_recupere_votre_profile";
-
+        userService.enableUser(user);
         return "redirect:/?message=userVerified"; 
     }
 

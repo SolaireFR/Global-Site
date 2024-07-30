@@ -8,10 +8,7 @@ import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
 import perso.fr.GlobalSite.Connection.Dto.UserRegisterDto;
 import perso.fr.GlobalSite.Connection.Entity.Role;
 import perso.fr.GlobalSite.Connection.Entity.User;
-import perso.fr.GlobalSite.Connection.Entity.VerificationToken;
-import perso.fr.GlobalSite.Connection.Entity.Repository.RoleRepository;
 import perso.fr.GlobalSite.Connection.Entity.Repository.UserRepository;
-import perso.fr.GlobalSite.Connection.Entity.Repository.VerificationTokenRepository;
 import perso.fr.GlobalSite.Security.GlobalVars;
 
 import java.util.Arrays;
@@ -22,21 +19,15 @@ import java.util.stream.Collectors;
 public class UserService implements IUserService {
 
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private VerificationTokenRepository verificationTokenRepository;
     private PasswordEncoder passwordEncoder;
     private IMailService mailService;
 
     public UserService(UserRepository userRepository,
-            RoleRepository roleRepository,
             PasswordEncoder passwordEncoder,
-            IMailService mailService,
-            VerificationTokenRepository verificationTokenRepository) {
+            IMailService mailService) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
-        this.verificationTokenRepository = verificationTokenRepository;
     }
 
     @Override
@@ -53,17 +44,13 @@ public class UserService implements IUserService {
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_USER");
-        if (role == null) {
-            role = addRoleUser();
-        }
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
 
         User createdUser = userRepository.save(user);
 
-        VerificationToken verificationToken = createVerificationToken(createdUser); 
+        String verificationToken = createVerificationToken(createdUser); 
 
-        sendVerificationMail(createdUser, verificationToken.getToken());
+        sendVerificationMail(createdUser, verificationToken);
     }
 
     private void sendVerificationMail(User user, String token) {
@@ -76,27 +63,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public VerificationToken createVerificationToken(User user) {
-        VerificationToken token = new VerificationToken(user);
-        VerificationToken newToken = verificationTokenRepository.save(token);
-        return newToken;
+    public String createVerificationToken(User user) {
+        String token = User.generateNewToken();
+        return token;
     }
 
     @Override
-    public VerificationToken getVerificationToken(String VerificationToken) {
-        return verificationTokenRepository.findByToken(VerificationToken);
+    public User findUserWithToken(String VerificationToken) {
+        return userRepository.findByToken(VerificationToken);
     }
 
     @Override
     public void enableUser(User user) {
         user.setEnabled(true);
         userRepository.save(user);
-    }
-
-    private Role addRoleUser() {
-        Role role = new Role();
-        role.setName("ROLE_USER");
-        return roleRepository.save(role);
     }
 
     @Override
