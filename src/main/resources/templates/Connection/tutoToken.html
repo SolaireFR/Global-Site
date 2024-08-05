@@ -16,32 +16,28 @@
     <header th:insert="~{Connection/base :: global-site-header}"></header>
 
     <div class="container mt-5">
-        <div th:if="${param.success}">
-            <div class="alert alert-info" th:text="#{register.success}">
-                You have successfully registered our app !
-            </div>
-        </div>
-        <div th:if="${statusToken.getArrtibute() == null}">
+        <!-- SI -->
+        <div th:if="${param.email}">
+            <div th:text="'You ' + ${param.email} + ' have successfully registered our app !'" class="alert alert-info"></div>
+
             <div class="alert alert-info">
                 <p>Welcome! Please follow the instructions to connect and use your token.</p>
             </div>
         </div>
-        <div th:if="${statusToken == 'connection'}">
-            <div class="alert alert-info">
-                <p th:text="'Your email is ' + ${email}"></p>
-                <p>Please follow the instructions to connect and use your token.</p>
+        <!-- SINON SI -->
+        <div th:unless="${param.email}" class="alert alert-info">
+            <p>You must create an account. <a href="/register">Click here to register.</a></p>
+        </div>
+
+        <div th:switch="${param.token}">
+            <div th:case="success" class="alert alert-success">
+                <p>Your token is valid! <a href="/login">Click here to login</a>.</p>
+            </div>
+            <div th:case="error" class="alert alert-danger">
+                <p>Your token is not valid! <a href="/resendToken">Click here to request a new token.</a></p>
             </div>
         </div>
-        <div th:if="${statusToken == 'validtoken'}">
-            <div class="alert alert-success">
-                <p>Token is valid! <a href="/login">Click here to login</a>.</p>
-            </div>
-        </div>
-        <div th:if="${statusToken == 'invalidtoken'}">
-            <div class="alert alert-danger">
-                <p>Token is invalid! <a href="/resendToken">Click here to request a new token</a>.</p>
-            </div>
-        </div>
+
     </div>
     
 </body>

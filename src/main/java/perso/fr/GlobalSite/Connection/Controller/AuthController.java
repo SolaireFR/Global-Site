@@ -49,7 +49,6 @@ public class AuthController {
         return "Connection/register";
     }
 
-    @SuppressWarnings("null")
     @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("user") UserRegisterDto userDto,
             BindingResult result,
@@ -67,7 +66,7 @@ public class AuthController {
         }
 
         userService.registerUser(userDto);
-        return "redirect:/register/token?success";
+        return "redirect:/register/token?email="+userDto.getEmail();
     }
 
     @GetMapping("/register/token")

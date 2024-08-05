@@ -48,9 +48,10 @@ public class UserService implements IUserService {
 
         User createdUser = userRepository.save(user);
 
-        String verificationToken = createVerificationToken(createdUser); 
+        String verificationToken = createVerificationToken(createdUser);
 
-        sendVerificationMail(createdUser, verificationToken);
+        //sendVerificationMail(createdUser, verificationToken); // Mise en commentaire  pour ne pas envoyer de mail
+        this.enableUser(createdUser); // Pas de commentaire pour verifié  
     }
 
     private void sendVerificationMail(User user, String token) {
