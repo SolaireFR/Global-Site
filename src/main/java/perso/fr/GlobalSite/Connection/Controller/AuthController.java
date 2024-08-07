@@ -74,21 +74,27 @@ public class AuthController {
         return "Connection/tutoToken";
     }
 
+    @PostMapping("/register/token")
+    public String resendToken(@RequestParam("email") String email) {
+        System.out.println("TOKEN RENVOYER à "+email);
+        return "redirect:/register/token?error="+email;
+    }
+
     @GetMapping("/userVerification")
     public String confirmRegistration(Model model, @RequestParam("token") String token) {
     
         User user = userService.findUserWithToken(token);
         if (user == null) {
-            return "redirect:/?error=Le_token_est_invalide";
+            return "redirect:/register/token?error=Le_token_est_invalide";
         }
         
         Calendar cal = Calendar.getInstance();
         if ((user.getTokenExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return "redirect:/?error=Le_token_est_expire";
+            return "redirect:/register/token?error=Le_token_est_expire";
         }
         
         userService.enableUser(user);
-        return "redirect:/?message=userVerified"; 
+        return "redirect:/register/token?success=userVerified"; 
     }
 
     @GetMapping("/users")
