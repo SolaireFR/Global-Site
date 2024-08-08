@@ -38,7 +38,7 @@
                 </ul>
 
                 <br></br>
-                <form action="" method="POST" class="card" style="max-width: 300px;">
+                <form th:action="@{/register/token}" method="POST" class="card" style="max-width: 300px;">
                     <div class="card-header"><p class="card-title">Renvoyer le token</p></div>
                     <div class="card-body">
                         <div class="input-group mb-3">
@@ -67,7 +67,7 @@
         <div th:if="${param.error}" class="alert alert-danger">
             <p>Your token is not valid !</p>
 
-            <form action="" method="POST" class="card" style="max-width: 300px;">
+            <form th:action="@{/register/token}" method="POST" class="card" style="max-width: 300px;">
                 <div class="card-header"><p class="card-title">Renvoyer le token</p></div>
                 <div class="card-body">
                     <div class="input-group mb-3">

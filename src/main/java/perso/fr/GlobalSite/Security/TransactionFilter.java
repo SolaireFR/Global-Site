@@ -25,7 +25,7 @@ public class TransactionFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         
-        System.out.println(req.getRequestURL());
+        System.out.println("-> "+req.getRequestURL());
 
         chain.doFilter(req, res);
       }
