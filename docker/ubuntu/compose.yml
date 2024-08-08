@@ -6,6 +6,11 @@
 # netstat -aon | findstr :8080
 # tasklist | findstr [PID]
 
+# If setup.sh is not executable :
+# In container terminal :
+# apt-get update && apt-get install -y dos2unix
+# dos2unix /setup.sh
+
 networks:
   mysql_default:
     external: true
