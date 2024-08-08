@@ -30,6 +30,7 @@ public class SpringSecurity {
 				.requestMatchers("/error/**").permitAll()
 				.requestMatchers("/register").permitAll()
 				.requestMatchers("/register/token").permitAll()
+				.requestMatchers("/register/resendToken").permitAll()
 				.requestMatchers("/userVerification/**").permitAll()
 				.requestMatchers("/").permitAll()
 				.requestMatchers("/account/**").authenticated()
