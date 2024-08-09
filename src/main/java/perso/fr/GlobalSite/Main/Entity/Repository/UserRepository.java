@@ -1,8 +1,8 @@
-package perso.fr.GlobalSite.Connection.Entity.Repository;
+package perso.fr.GlobalSite.Main.Entity.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import perso.fr.GlobalSite.Connection.Entity.User;
+import perso.fr.GlobalSite.Main.Entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);

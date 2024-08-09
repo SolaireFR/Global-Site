@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Connection.Entity;
+package perso.fr.GlobalSite.Main.Entity;
 
 import java.security.SecureRandom;
 import java.sql.Date;

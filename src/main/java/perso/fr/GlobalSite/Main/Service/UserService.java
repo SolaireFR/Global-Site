@@ -1,36 +1,35 @@
-package perso.fr.GlobalSite.Connection.Service;
+package perso.fr.GlobalSite.Main.Service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
-import perso.fr.GlobalSite.Connection.Dto.UserRegisterDto;
-import perso.fr.GlobalSite.Connection.Entity.Role;
-import perso.fr.GlobalSite.Connection.Entity.User;
-import perso.fr.GlobalSite.Connection.Entity.Repository.UserRepository;
-import perso.fr.GlobalSite.Security.GlobalVars;
+import perso.fr.GlobalSite.Main.Entity.Role;
+import perso.fr.GlobalSite.Main.Entity.User;
+import perso.fr.GlobalSite.Main.Entity.Dto.UserDataDto;
+import perso.fr.GlobalSite.Main.Entity.Dto.UserRegisterDto;
+import perso.fr.GlobalSite.Main.Entity.Repository.UserRepository;
+import perso.fr.GlobalSite.Main.Config.GlobalVars;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements IUserService {
+public class UserService {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
-    private IMailService mailService;
+    private MailService mailService;
 
     public UserService(UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            IMailService mailService) {
+            MailService mailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
     }
 
-    @Override
     public void registerUser(UserRegisterDto userDto) {
         User user = new User();
 
@@ -50,42 +49,38 @@ public class UserService implements IUserService {
 
         String verificationToken = createVerificationToken(createdUser);
 
-        //sendVerificationMail(createdUser, verificationToken); // Mise en commentaire  pour ne pas envoyer de mail
-        this.enableUser(createdUser); // Pas de commentaire pour verifié  
+        // sendVerificationMail(createdUser, verificationToken); // Mise en commentaire
+        // pour ne pas envoyer de mail
+        this.enableUser(createdUser); // Pas de commentaire pour verifié
     }
 
     private void sendVerificationMail(User user, String token) {
         String destinationEMail = user.getEmail();
         String subject = "GlobalSite - Registration Confirmation";
 
-        String confirmationUrl = GlobalVars.mainUrl+"userVerification?token=" + token;
+        String confirmationUrl = GlobalVars.mainUrl + "userVerification?token=" + token;
         String body = "Cliquer sur le lien suivant pour verifier votre compte :\r\n" + confirmationUrl;
         mailService.sendEmail(destinationEMail, subject, body);
     }
 
-    @Override
     public String createVerificationToken(User user) {
         String token = User.generateNewToken();
         return token;
     }
 
-    @Override
     public User findUserWithToken(String VerificationToken) {
         return userRepository.findByToken(VerificationToken);
     }
 
-    @Override
     public void enableUser(User user) {
         user.setEnabled(true);
         userRepository.save(user);
     }
 
-    @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    @Override
     public UserDataDto findUserDataByEmail(String Email) {
         User user = userRepository.findByEmail(Email);
         return mapToUserDataDto(user);
@@ -99,7 +94,6 @@ public class UserService implements IUserService {
         return userDto;
     }
 
-    @Override
     public List<UserDataDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
@@ -107,7 +101,6 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     @Transactional
     public Boolean deleteUserByEmail(String email) {
         try {

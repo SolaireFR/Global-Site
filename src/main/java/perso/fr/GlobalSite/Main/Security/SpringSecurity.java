@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Security;
+package perso.fr.GlobalSite.Main.Security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

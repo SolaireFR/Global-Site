@@ -2,7 +2,7 @@ package perso.fr.GlobalSite.Functionnality.QualityCode.Dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
+import perso.fr.GlobalSite.Main.Entity.Dto.UserDataDto;
 
 @Getter
 @Setter

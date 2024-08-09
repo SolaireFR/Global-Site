@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import perso.fr.GlobalSite.Connection.Entity.User;
+import perso.fr.GlobalSite.Main.Entity.User;
 
 @Getter
 @Setter

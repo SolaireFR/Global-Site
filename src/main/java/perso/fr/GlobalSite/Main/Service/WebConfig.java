@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Connection.Service;
+package perso.fr.GlobalSite.Main.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

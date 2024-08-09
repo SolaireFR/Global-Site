@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Connection.Entity;
+package perso.fr.GlobalSite.Main.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

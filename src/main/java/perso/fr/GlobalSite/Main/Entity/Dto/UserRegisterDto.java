@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Connection.Dto;
+package perso.fr.GlobalSite.Main.Entity.Dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite;
+package perso.fr.GlobalSite.Main.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

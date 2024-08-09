@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Connection.Service;
+package perso.fr.GlobalSite.Main.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -6,7 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MailService implements IMailService {
+public class MailService {
 
     @Autowired
     private JavaMailSender mailSender;

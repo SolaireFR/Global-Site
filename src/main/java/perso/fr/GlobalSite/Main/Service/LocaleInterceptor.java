@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Connection.Service;
+package perso.fr.GlobalSite.Main.Service;
 
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;

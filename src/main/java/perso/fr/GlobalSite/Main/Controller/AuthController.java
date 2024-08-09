@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Connection.Controller;
+package perso.fr.GlobalSite.Main.Controller;
 
 import java.util.Calendar;
 import java.util.List;
@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import perso.fr.GlobalSite.Connection.Dto.UserDataDto;
-import perso.fr.GlobalSite.Connection.Dto.UserRegisterDto;
-import perso.fr.GlobalSite.Connection.Entity.User;
-import perso.fr.GlobalSite.Connection.Service.IUserService;
-import perso.fr.GlobalSite.Connection.Service.MailService;
+import perso.fr.GlobalSite.Main.Entity.User;
+import perso.fr.GlobalSite.Main.Entity.Dto.UserDataDto;
+import perso.fr.GlobalSite.Main.Entity.Dto.UserRegisterDto;
+import perso.fr.GlobalSite.Main.Service.IUserService;
+import perso.fr.GlobalSite.Main.Service.MailService;
 
 @Controller
 public class AuthController {
@@ -49,6 +49,7 @@ public class AuthController {
         return "Connection/register";
     }
 
+    @SuppressWarnings("null")
     @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("user") UserRegisterDto userDto,
             BindingResult result,

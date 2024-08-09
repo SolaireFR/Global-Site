@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import perso.fr.GlobalSite.Connection.Entity.User;
-import perso.fr.GlobalSite.Connection.Service.UserService;
 import perso.fr.GlobalSite.Functionnality.QualityCode.Dto.AdviceDto;
 import perso.fr.GlobalSite.Functionnality.QualityCode.Entity.Advice;
 import perso.fr.GlobalSite.Functionnality.QualityCode.Entity.Repository.AdviceRepository;
+import perso.fr.GlobalSite.Main.Entity.User;
+import perso.fr.GlobalSite.Main.Service.UserService;
 
 @Service
 public class AdviceService implements IAdviceService {
