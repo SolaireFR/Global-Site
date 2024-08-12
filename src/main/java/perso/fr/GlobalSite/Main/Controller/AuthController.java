@@ -24,8 +24,8 @@ import jakarta.validation.Valid;
 import perso.fr.GlobalSite.Main.Entity.User;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserDataDto;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserRegisterDto;
-import perso.fr.GlobalSite.Main.Service.IUserService;
 import perso.fr.GlobalSite.Main.Service.MailService;
+import perso.fr.GlobalSite.Main.Service.UserService;
 
 @Controller
 public class AuthController {
@@ -34,7 +34,7 @@ public class AuthController {
     private MessageSource messages;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @GetMapping("/")
     public String main(HttpServletRequest request) {

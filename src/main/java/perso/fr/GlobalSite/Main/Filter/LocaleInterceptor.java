@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Main.Service;
+package perso.fr.GlobalSite.Main.Filter;
 
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
