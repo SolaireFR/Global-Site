@@ -29,6 +29,7 @@ public class SpringSecurity {
 		http.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/error/**").permitAll()
 				.requestMatchers("/register").permitAll()
+				.requestMatchers("/MoneyManager").permitAll()
 				.requestMatchers("/register/token").permitAll()
 				.requestMatchers("/userVerification/**").permitAll()
 				.requestMatchers("/").permitAll()

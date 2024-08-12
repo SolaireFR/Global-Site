@@ -1,4 +1,4 @@
-package perso.fr.GlobalSite.Main.Security;
+package perso.fr.GlobalSite.Main.Filter;
 
 import java.io.IOException;
 
@@ -17,19 +17,18 @@ import jakarta.servlet.http.HttpServletResponse;
 @Order(1)
 public class TransactionFilter implements Filter {
 
-    @Override
-    public void doFilter(
-      ServletRequest request, 
-      ServletResponse response, 
-      FilterChain chain) throws ServletException, IOException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-        
-        System.out.println("-> "+req.getRequestURL());
+	@Override
+	public void doFilter(
+			ServletRequest request,
+			ServletResponse response,
+			FilterChain chain) throws ServletException, IOException {
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
 
-        chain.doFilter(req, res);
-      }
+		System.out.println("-> " + req.getRequestURL());
 
+		chain.doFilter(req, res);
+	}
 
-    // other methods 
+	// other methods
 }
