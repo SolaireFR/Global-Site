@@ -9,16 +9,19 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.MoneyManagerUser;
 
 @Getter
 @Setter
@@ -72,6 +75,9 @@ public class User
     private String token;
 
     private Date tokenExpiryDate;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private UserData userData = new UserData(this);
 
     public List<Role> getRoles() {
         return new ArrayList<Role>(){{new Role(role);}};

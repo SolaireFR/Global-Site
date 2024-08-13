@@ -38,7 +38,7 @@ public class AuthController {
 
     @GetMapping("/")
     public String main(HttpServletRequest request) {
-        return "Connection/index";
+        return "Main/index";
     }
 
     @GetMapping("/register")
@@ -46,7 +46,7 @@ public class AuthController {
         // create model object to store form data
         UserRegisterDto user = new UserRegisterDto();
         model.addAttribute("user", user);
-        return "Connection/register";
+        return "Main/register";
     }
 
     @SuppressWarnings("null")
@@ -63,7 +63,7 @@ public class AuthController {
 
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
-            return "Connection/register";
+            return "Main/register";
         }
 
         userService.registerUser(userDto);
@@ -72,7 +72,7 @@ public class AuthController {
 
     @GetMapping("/register/token")
     public String showTokenTuto() {
-        return "Connection/tutoToken";
+        return "Main/tutoToken";
     }
 
     @PostMapping("/register/token")
@@ -102,12 +102,12 @@ public class AuthController {
     public String users(Model model) {
         List<UserDataDto> users = userService.findAllUsers();
         model.addAttribute("users", users);
-        return "Connection/users";
+        return "Main/users";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "Connection/login";
+        return "Main/login";
     }
 
     @GetMapping("/account")
@@ -122,7 +122,7 @@ public class AuthController {
 
         UserDataDto user = userService.findUserDataByEmail(email);
         model.addAttribute("user", user);
-        return "Connection/account";
+        return "Main/account";
     }
 
     @PostMapping("/account/delete")
