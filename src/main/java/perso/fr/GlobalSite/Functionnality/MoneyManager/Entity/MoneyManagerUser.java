@@ -30,10 +30,9 @@ public class MoneyManagerUser {
     @JoinColumn(name = "user_data_id", referencedColumnName = "id")
     private UserData userData;
 
-    @Column(nullable = false)
-    private String test = "Je suis une données de test";
-
     public MoneyManagerUser(UserData userData) {
         this.userData = userData;
     }
+
+    
 }
