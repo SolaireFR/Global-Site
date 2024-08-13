@@ -2,10 +2,8 @@
     "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
     "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
+<!-- https://checkstyle.org/checks.html -->
 <module name="Checker">
-    <!-- Vérifie que les fichiers se terminent par une nouvelle ligne -->
-    <module name="NewlineAtEndOfFile"/>
-    
     <module name="TreeWalker">
         <!-- Vérifie l'indentation de base -->
         <module name="Indentation">
@@ -16,5 +14,239 @@
         <!-- Vérifie la présence de commentaires Javadoc sur les classes et les méthodes publiques -->
         <module name="JavadocMethod"/>
         <module name="JavadocType"/>
+
+        <!-- Ensures that the names of abstract classes conforming to some pattern -->
+        <module name="AbstractClassName"/>
+
+        <!-- Checks the style of elements in annotations. -->
+        <module name="AnnotationUseStyle"/>
+
+        <!-- Checks for imports from a set of illegal packages. -->
+        <module name="IllegalImport"/>
+
+        <!-- Evite les imports *. -->
+        <module name="AvoidStarImport"/>
+
+        <!-- Evite les virgules en fin d'ENUM. -->
+        <module name="NoEnumTrailingComma"/>
+
+        <!-- Evite les espaces avant et aprés ;. -->
+        <module name="NoWhitespaceBefore"/>
+        <module name="NoWhitespaceAfter"/>
+
+        <!-- Verifie espace autour des () et {} et évite trop d'espaces. -->
+        <module name="WhitespaceAround"/>
+        <module name="SingleSpaceSeparator">
+            <property name="validateComments" value="true"/>
+        </module>
+
+        <!-- Checks visibility of class members. Only static final, immutable or annotated by specified annotation members may be public; other class members must be private unless the property protectedAllowed or packageAllowed is set. -->
+        <module name="VisibilityModifier"/>
+
+        <!-- Evite les imports non utilisés. -->
+        <module name="UnusedImports"/>
+
+        <!-- Evite les variables locale non utilisés. -->
+        <module name="UnusedLocalVariable"/>
+
+        <!-- Evite les parenthèses inutiles. -->
+        <module name="UnnecessaryParentheses"/>
+
+        <!-- Vérifie qu'il y ait un espace avant les tags javadoc. -->
+        <module name="RequireEmptyLineBeforeBlockTagGroup"/>
+
+        <!-- Empèche de zapper un TODO. -->
+        <module name="TodoComment"/>
+
+        <!-- Evite les == entre String. -->
+        <module name="StringLiteralEquality"/>
+
+        <!-- Vérifie si il est possible d'avoir des boolean moins complexe. -->
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+
+        <!-- Vérifie qu'une ligne non fini se termine bien par un séparateur.   -->
+        <module name="SeparatorWrap"/>
+
+        <!-- Vérifie si les else catch sont sur l'acolade précèdente. -->
+        <module name="RightCurly"/>
+
+        <!-- Evite d'avoir un attribut appeler sans this et du même nom qu'un parametre.  -->
+        <module name="RequireThis"/>
+
+        <!-- Evite les imports redondants. -->
+        <module name="RedundantImport"/>
+
+        <!-- Evite d'avoir nimporte quoi dans les Types génériques.  -->
+        <module name="RecordTypeParameterName">
+            <property name="format" value="^[A-Z]$"/>
+        </module>
+
+        <!-- Evite les espaces dans les parenthéses remplie. -->
+        <module name="ParenPad"/>
+
+        <!-- Evite d'avoir plus de 7 parametres. -->
+        <module name="ParameterNumber">
+            <property name="ignoreOverriddenMethods" value="true"/>
+        </module>
+
+        <!-- Structure les noms de paramètres. -->
+        <module name="ParameterName">
+            <property name="ignoreOverridden" value="true"/>
+        </module>
+
+        <!-- Evite la modification des paramètres. -->
+        <module name="ParameterAssignment"/>
+
+        <!-- Structure les noms de paquet.  -->
+        <module name="PackageName">
+            <property name="format"
+                value="^[a-zA-Z]+(\.[a-zA-Z_]\w*)*$"/>
+        </module>
+
+        <!-- Evite d'avoir les Overload non groupés. -->
+        <module name="OverloadMethodsDeclarationOrder"/>
+
+        <!-- Evite d'avoir un début d'ancien calcul ou comparaison sans opérateur. -->
+        <module name="OperatorWrap"/>
+
+        <!-- Evite d'avoir plusieurs déclarations sur une ligne. -->
+        <module name="OneStatementPerLine"/> 
+
+        <!-- Evite les espaces lors d'un Switch Case. -->
+        <module name="NoWhitespaceBeforeCaseDefaultColon"/>
+
+        <!-- Vérifie les descriptions Javadoc. -->
+        <module name="NonEmptyAtclauseDescription"/>
+
+        <!-- Evite les , en fin de listes. -->
+        <module name="NoArrayTrailingComma"/>
+
+        <!-- Evite la duplication des String. -->
+        <module name="MultipleStringLiterals"/>
+
+        <!-- Evite les modifications d'incrementeur sur boucle For. -->
+        <module name="ModifiedControlVariable"/>
+
+        <!-- Structure les noms de type générique de renvoie de fonction. -->
+        <module name="MethodTypeParameterName"/>
+
+        <!-- Structure les noms de méthodes. -->
+        <module name="MethodName"/>
+
+        <!-- Evite les espaces devant corps fonction. -->
+        <module name="MethodParamPad"/>
+
+        <!-- Evite les fonctions trop longue. -->
+        <module name="MethodLength">
+            <property name="max" value="40"/>
+        </module>
+
+        <!-- Structure les noms d'attributs. -->
+        <module name="MemberName"/>
+
+        <!-- Evite les nombres magiques. -->
+        <module name="MagicNumber"/>
+
+        <!-- Structure les noms de variables locales. -->
+        <module name="LocalVariableName"/>
+
+        <!-- Structure les noms de variables locales finales. -->
+        <module name="LocalFinalVariableName">
+            <property name="format" value="^[A-Z][A-Z0-9_]*$"/>
+        </module>
+
+        <!-- Vérifie l'indentation de la Javadoc. -->
+        <module name="JavadocTagContinuationIndentation"/>
+
+        <!-- Vérifie qu'il y ait un espace après un astérix Javadoc. -->
+        <module name="JavadocMissingWhitespaceAfterAsterisk"/>
+
+        <!-- Vérifie qu'il y ait un astérix sur toutes les lignes Javadoc. -->
+        <module name="JavadocMissingLeadingAsterisk"/>
+
+        <!-- Vérifie que la Javadoc pour les fonctions contiens les paramètres et le retour. -->
+        <module name="JavadocMethod"/>
+
+        <!-- Vérifie que la Javadoc est devant les annotations.  -->
+        <module name="InvalidJavadocPosition"/>
+
+        <!-- Structure les noms des types génériques pour les fonctions d'interfaces. -->
+        <module name="InterfaceTypeParameterName"/>
+
+        <!-- Vérifie le trie des imports. -->
+        <module name="ImportOrder"/>
+
+        <!-- Evite des Throws non souhaitable. -->
+        <module name="IllegalThrows"/>
+
+        <!-- Evite les espaces autour d'un Type générique. -->
+        <module name="GenericWhitespace"/>
+
+        <!-- Evite les tabulations. -->
+        <module name="FileTabCharacter"/>
+
+        <!-- Vérifie que les Case de Switch se termine par un élémént quittant.  -->
+        <module name="FallThrough"/>
+
+        <!-- Evite les déclarations vides. -->
+        <module name="EmptyStatement"/>
+
+        <!-- Evite les catchs vide. -->
+        <module name="EmptyCatchBlock"/>
+
+        <!-- Evite les Blocks vide sauf Case. -->
+        <module name="EmptyBlock"/>
+
+        <!-- Evite dans Case d'avoir default au milieu. -->
+        <module name="DefaultComesLast"/>
+
+        <!-- Vérifie que les constructeurs sont ensembles. -->
+        <module name="ConstructorsDeclarationGrouping"/>
+
+        <!-- Structure les noms des finales. -->
+        <module name="ConstantName"/>
+
+        <!-- Vérifie l'indentation des commentaires. -->
+        <module name="CommentsIndentation"/>
+
+        <!-- Structure le noms des types génériques des classes. -->
+        <module name="ClassTypeParameterName"/>
+
+        <!-- Structure les noms des paramétres de catch. -->
+        <module name="CatchParameterName"/>
+
+        <!-- Evite des [] de liste nimporte où. -->
+        <module name="ArrayTypeStyle"/>
+
+        <!-- Vérifie la position des annotations. -->
+        <module name="AnnotationLocation"/>
     </module>
+
+    <!-- Vérifie que les fichiers se terminent par une nouvelle ligne -->
+    <module name="NewlineAtEndOfFile"/>
+
+    <!-- Vérifie la longueur d'une ligne. -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
+
+    <!-- Vérifie que la Javadoc est présente. -->
+    <module name="MissingJavadocMethod"/>
+    <module name="MissingJavadocPackage"/>
+    <module name="MissingJavadocType">
+        <property name="scope" value="private"/>
+        <property name="skipAnnotations" value="NoAnnotation,SpringBootApplication,Configuration"/>
+    </module>
+
+    <!-- Evite de réécrire une variable déjà instancié. -->
+    <module name="UniqueProperties"/>
+
+    <!-- Vérifie que les messages soit présent dans toutes les traductions. -->
+    <module name="Translation">
+        <property name="requiredTranslations" value="fr"/>
+    </module>
+
+    <!-- Vérifie que les messages soit trié alphabétiquements. -->
+    <module name="OrderedProperties"/>
 </module>

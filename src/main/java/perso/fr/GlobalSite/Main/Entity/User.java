@@ -21,7 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.MoneyManagerUser;
 
 @Getter
 @Setter
