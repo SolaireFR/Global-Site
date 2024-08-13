@@ -4,11 +4,41 @@
 
 <!-- https://checkstyle.org/checks.html -->
 <module name="Checker">
+    <!-- Vérifie que les fichiers se terminent par une nouvelle ligne -->
+    <module name="NewlineAtEndOfFile"/>
+
+    <!-- Vérifie la longueur d'une ligne. -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
+
+    <!-- Evite de réécrire une variable déjà instancié. -->
+    <module name="UniqueProperties"/>
+
+    <!-- Vérifie que les messages soit présent dans toutes les traductions. -->
+    <module name="Translation">
+        <property name="requiredTranslations" value="fr"/>
+    </module>
+
+    <!-- Vérifie que les messages soit trié alphabétiquements. -->
+    <module name="OrderedProperties"/>
+
+    <!-- Evite les tabulations. -->
+    <module name="FileTabCharacter"/>
+
     <module name="TreeWalker">
         <!-- Vérifie l'indentation de base -->
         <module name="Indentation">
             <property name="basicOffset" value="4"/>
             <property name="tabWidth" value="4"/>
+        </module>
+
+        <!-- Vérifie que la Javadoc est présente. -->
+        <module name="MissingJavadocMethod"/>
+        <module name="MissingJavadocPackage"/>
+        <module name="MissingJavadocType">
+            <property name="scope" value="private"/>
+            <property name="skipAnnotations" value="NoAnnotation,SpringBootApplication,Configuration"/>
         </module>
 
         <!-- Vérifie la présence de commentaires Javadoc sur les classes et les méthodes publiques -->
@@ -183,9 +213,6 @@
         <!-- Evite les espaces autour d'un Type générique. -->
         <module name="GenericWhitespace"/>
 
-        <!-- Evite les tabulations. -->
-        <module name="FileTabCharacter"/>
-
         <!-- Vérifie que les Case de Switch se termine par un élémént quittant.  -->
         <module name="FallThrough"/>
 
@@ -222,31 +249,4 @@
         <!-- Vérifie la position des annotations. -->
         <module name="AnnotationLocation"/>
     </module>
-
-    <!-- Vérifie que les fichiers se terminent par une nouvelle ligne -->
-    <module name="NewlineAtEndOfFile"/>
-
-    <!-- Vérifie la longueur d'une ligne. -->
-    <module name="LineLength">
-        <property name="max" value="120"/>
-    </module>
-
-    <!-- Vérifie que la Javadoc est présente. -->
-    <module name="MissingJavadocMethod"/>
-    <module name="MissingJavadocPackage"/>
-    <module name="MissingJavadocType">
-        <property name="scope" value="private"/>
-        <property name="skipAnnotations" value="NoAnnotation,SpringBootApplication,Configuration"/>
-    </module>
-
-    <!-- Evite de réécrire une variable déjà instancié. -->
-    <module name="UniqueProperties"/>
-
-    <!-- Vérifie que les messages soit présent dans toutes les traductions. -->
-    <module name="Translation">
-        <property name="requiredTranslations" value="fr"/>
-    </module>
-
-    <!-- Vérifie que les messages soit trié alphabétiquements. -->
-    <module name="OrderedProperties"/>
 </module>
