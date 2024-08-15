@@ -68,8 +68,8 @@ public class UserService {
         return token;
     }
 
-    public User findUserWithToken(String VerificationToken) {
-        return userRepository.findByToken(VerificationToken);
+    public User findUserWithToken(String verificationToken) {
+        return userRepository.findByToken(verificationToken);
     }
 
     public void enableUser(User user) {

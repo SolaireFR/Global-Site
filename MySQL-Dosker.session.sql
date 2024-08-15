@@ -1,1 +1,0 @@
-DROP TABLE verification_token, verification_token_seq;
