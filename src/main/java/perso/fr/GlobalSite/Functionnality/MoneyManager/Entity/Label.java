@@ -8,37 +8,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/** Une transaction est un déplacement d'argent. */
+/** Permet de diffèrencier les types de transaction créer par l'utilisateur. */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "money_manager_transactions")
-public class Transaction {
+@Table(name = "money_manager_labels")
+public class Label {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionId;
+    private Long labelId;
 
     @Column(nullable = false)
-    private float amount;
+    private String name;
 
-    @Column(nullable = false)
-    private LocalDateTime time = LocalDateTime.now();
-
-    @Column(nullable = false)
     @ManyToOne
-    @JoinColumn(name = "accountId")
-    private Account account;
-
-    @Column(nullable = false)
-    @ManyToOne
-    @JoinColumn(name = "labelId")
-    private Label label;
+    @JoinColumn(name = "userId")
+    private MoneyManagerUser user;
 }

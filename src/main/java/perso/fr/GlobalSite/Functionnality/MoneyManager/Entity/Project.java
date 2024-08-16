@@ -13,17 +13,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/** Permet de diffèrencier les types de transaction créer par l'utilisateur. */
+/** Un projet permet de trié les rentrées supplémentaire d'argent pour des objectifs précis. */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "money_manager_custom_labels")
-public class CustomLabel {
+@Table(name = "money_manager_projects")
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long labelId;
+    private Long projectsId;
 
     @Column(nullable = false)
     private String name;
@@ -31,4 +31,7 @@ public class CustomLabel {
     @ManyToOne
     @JoinColumn(name = "userId")
     private MoneyManagerUser user;
+
+    @Column(nullable = false)
+    private float ammount = 0.0f;
 }

@@ -39,6 +39,9 @@ public class MoneyManagerUser {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Account> labels = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Project> projects = new ArrayList<>();
+
     /** Constructeur de MoneyManagerUser permettant l'ajout de userData.
      *
      * @param userData L'entité regroupant les fonctionnalités de l'utilisateur.
