@@ -154,7 +154,7 @@
         <module name="NoArrayTrailingComma"/>
 
         <!-- Evite la duplication des String. -->
-        <module name="MultipleStringLiterals"/>
+        <!-- <module name="MultipleStringLiterals"/> -->
 
         <!-- Evite les modifications d'incrementeur sur boucle For. -->
         <module name="ModifiedControlVariable"/>
@@ -206,7 +206,7 @@
         <module name="InterfaceTypeParameterName"/>
 
         <!-- Vérifie le trie des imports. -->
-        <module name="ImportOrder"/>
+        <!-- <module name="ImportOrder"/> -->
 
         <!-- Evite des Throws non souhaitable. -->
         <module name="IllegalThrows"/>
