@@ -15,12 +15,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	@Bean
-	public static PasswordEncoder passwordEncoder() {
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
@@ -29,6 +28,9 @@ public class SpringSecurity {
 		http.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/error/**").permitAll()
 				.requestMatchers("/register").permitAll()
+				.requestMatchers("/MoneyManager/bankAccount/create").permitAll()
+				.requestMatchers("/MoneyManager/accumulator/create").permitAll()
+				.requestMatchers("/MoneyManager/label/create").permitAll()
 				.requestMatchers("/MoneyManager").permitAll()
 				.requestMatchers("/register/token").permitAll()
 				.requestMatchers("/userVerification/**").permitAll()
