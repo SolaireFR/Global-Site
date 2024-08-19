@@ -40,7 +40,7 @@ public class MoneyManagerUser {
     private List<Account> labels = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Project> projects = new ArrayList<>();
+    private List<Accumulator> accumulators = new ArrayList<>();
 
     /** Constructeur de MoneyManagerUser permettant l'ajout de userData.
      *

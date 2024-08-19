@@ -1,5 +1,6 @@
 package perso.fr.GlobalSite.Functionnality.MoneyManager.Entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,4 +34,7 @@ public class Account {
 
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MonthlyTransaction> monthlyTransactions = new ArrayList<>();
 }

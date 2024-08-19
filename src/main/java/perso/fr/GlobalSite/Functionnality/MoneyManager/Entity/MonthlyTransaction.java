@@ -8,35 +8,40 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/** Une transaction est un déplacement d'argent. */
+/** Une charge correspond aux sorties fixes d'argent pour des objectifs précis. */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "money_manager_transactions")
-public class Transaction {
+@Table(name = "money_manager_monthly_transaction")
+public class MonthlyTransaction {
+    public static final int MIN_DAY = 1;
+    public static final int MAX_DAY = 28;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionId;
+    private Long monthlyTransactionId;
 
     @Column(nullable = false)
-    private float amount;
-
-    @Column(nullable = false)
-    private LocalDateTime time = LocalDateTime.now();
+    private String name;
 
     @ManyToOne
-    @JoinColumn(name = "accountId", nullable = false)
+    @JoinColumn(name = "accountId")
     private Account account;
 
-    @ManyToOne
-    @JoinColumn(name = "labelId", nullable = false)
-    private Label label;
+    @Column(nullable = false)
+    private float ammount = 0.0f;
+
+    @Column(nullable = false)
+    @Min(MIN_DAY)
+    @Max(MAX_DAY)
+    private int dayOfMonth = 1;
 }
