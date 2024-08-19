@@ -48,7 +48,7 @@ public class AdviceService implements IAdviceService {
     private AdviceDto mapToAdviceDto(Advice advice) {
         AdviceDto adviceDto = new AdviceDto();
         adviceDto.setContent(advice.getContent());
-        adviceDto.setCreator(userService.mapToUserDataDto(advice.getCreator()));
+        adviceDto.setCreator(userService.mapToUserDto(advice.getCreator()));
         return adviceDto;
     }
 }

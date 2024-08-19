@@ -34,8 +34,8 @@ public class MonthlyTransaction {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "accountId")
-    private Account account;
+    @JoinColumn(name = "bankAccountId")
+    private BankAccount bankAccount;
 
     @Column(nullable = false)
     private float ammount = 0.0f;

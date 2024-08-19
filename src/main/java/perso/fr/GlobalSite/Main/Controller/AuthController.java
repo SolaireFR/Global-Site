@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import perso.fr.GlobalSite.Main.Entity.User;
-import perso.fr.GlobalSite.Main.Entity.Dto.UserDataDto;
+import perso.fr.GlobalSite.Main.Entity.Dto.UserDto;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserRegisterDto;
 import perso.fr.GlobalSite.Main.Service.MailService;
 import perso.fr.GlobalSite.Main.Service.UserService;
@@ -100,7 +100,7 @@ public class AuthController {
 
     @GetMapping("/users")
     public String users(Model model) {
-        List<UserDataDto> users = userService.findAllUsers();
+        List<UserDto> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "Main/users";
     }
@@ -120,7 +120,7 @@ public class AuthController {
             email = userDetails.getUsername();
         }
 
-        UserDataDto user = userService.findUserDataByEmail(email);
+        UserDto user = userService.findUserDtoByEmail(email);
         model.addAttribute("user", user);
         return "Main/account";
     }

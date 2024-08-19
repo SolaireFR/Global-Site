@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.MoneyManagerUser;
 
 /** UserData contiens l'ensemble des données applicatifs non personnel de l'utilisateur */
@@ -19,6 +20,7 @@ import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.MoneyManagerUser;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 @Entity
 @Table(name = "main_users_data")
 public class UserData {
@@ -30,7 +32,7 @@ public class UserData {
     @JoinColumn(name = "email", referencedColumnName = "email")
     private User user;
 
-    @OneToOne(mappedBy = "userData", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "userData", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private MoneyManagerUser moneyManagerUser = new MoneyManagerUser(this);
 
     /** Constructeur permettant de le relier directement à un utilisateur.

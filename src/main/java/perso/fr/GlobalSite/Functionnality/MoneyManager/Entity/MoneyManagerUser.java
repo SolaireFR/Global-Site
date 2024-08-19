@@ -30,16 +30,16 @@ public class MoneyManagerUser {
     private Long userId;
 
     @OneToOne
-    @JoinColumn(name = "user_data_id", referencedColumnName = "id")
+    @JoinColumn(name = "userDataId", referencedColumnName = "id")
     private UserData userData;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> accounts = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<BankAccount> bankAccounts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> labels = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Label> labels = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Accumulator> accumulators = new ArrayList<>();
 
     /** Constructeur de MoneyManagerUser permettant l'ajout de userData.

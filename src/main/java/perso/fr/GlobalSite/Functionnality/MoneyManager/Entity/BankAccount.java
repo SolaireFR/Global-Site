@@ -22,19 +22,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "money_manager_accounts")
-public class Account {
+@Table(name = "money_manager_bank_accounts")
+public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accountId;
+    private Long bankAccountId;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     private MoneyManagerUser user;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "bankAccount")
     private List<Transaction> transactions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<MonthlyTransaction> monthlyTransactions = new ArrayList<>();
 }

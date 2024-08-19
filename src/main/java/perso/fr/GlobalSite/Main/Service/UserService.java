@@ -1,20 +1,18 @@
 package perso.fr.GlobalSite.Main.Service;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import jakarta.transaction.Transactional;
-import perso.fr.GlobalSite.Main.Entity.Role;
-import perso.fr.GlobalSite.Main.Entity.User;
-import perso.fr.GlobalSite.Main.Entity.Dto.UserDataDto;
-import perso.fr.GlobalSite.Main.Entity.Dto.UserRegisterDto;
-import perso.fr.GlobalSite.Main.Entity.Repository.UserRepository;
-import perso.fr.GlobalSite.Main.Config.GlobalVars;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import perso.fr.GlobalSite.Main.Entity.Dto.UserDto;
+import perso.fr.GlobalSite.Main.Entity.Dto.UserRegisterDto;
+import perso.fr.GlobalSite.Main.Entity.Repository.UserRepository;
+import perso.fr.GlobalSite.Main.Entity.Role;
+import perso.fr.GlobalSite.Main.Entity.User;
 
+/** Classe Service de User. */
 @Service
 public class UserService {
 
@@ -22,6 +20,12 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     private MailService mailService;
 
+    /** Constructeur de UserService.
+     *
+     * @param userRepository Récupération des données utilisateurs.
+     * @param passwordEncoder Encodage des mots de passe.
+     * @param mailService Service des mails.
+     */
     public UserService(UserRepository userRepository,
             PasswordEncoder passwordEncoder,
             MailService mailService) {
@@ -30,6 +34,10 @@ public class UserService {
         this.mailService = mailService;
     }
 
+    /** Enregistre un utilisateur.
+     *
+     * @param userDto Les données de l'utilisateur.
+     */
     public void registerUser(UserRegisterDto userDto) {
         User user = new User();
 
@@ -47,60 +55,99 @@ public class UserService {
 
         User createdUser = userRepository.save(user);
 
-        String verificationToken = createVerificationToken(createdUser);
+        //String verificationToken = createVerificationToken(createdUser);
 
         // sendVerificationMail(createdUser, verificationToken); // Mise en commentaire
         // pour ne pas envoyer de mail
         this.enableUser(createdUser); // Pas de commentaire pour verifié
     }
 
-    private void sendVerificationMail(User user, String token) {
-        String destinationEMail = user.getEmail();
-        String subject = "GlobalSite - Registration Confirmation";
+    // private void sendVerificationMail(User user, String token) {
+    //     String destinationEMail = user.getEmail();
+    //     String subject = "GlobalSite - Registration Confirmation";
 
-        String confirmationUrl = GlobalVars.mainUrl + "userVerification?token=" + token;
-        String body = "Cliquer sur le lien suivant pour verifier votre compte :\r\n" + confirmationUrl;
-        mailService.sendEmail(destinationEMail, subject, body);
-    }
+    //     String confirmationUrl = GlobalVars.mainUrl + "userVerification?token=" + token;
+    //     String body = "Cliquer sur le lien suivant pour verifier votre compte :\r\n" + confirmationUrl;
+    //     mailService.sendEmail(destinationEMail, subject, body);
+    // }
 
+    /** Crée un token de vérification.
+     *
+     * @param user L'utilisateur.
+     * @return Le token.
+     */
     public String createVerificationToken(User user) {
         String token = User.generateNewToken();
         return token;
     }
 
+    /** Trouve un utilisateur avec un token.
+     *
+     * @param verificationToken Le token.
+     * @return L'utilisateur.
+     */
     public User findUserWithToken(String verificationToken) {
         return userRepository.findByToken(verificationToken);
     }
 
+    /** Active un utilisateur.
+     *
+     * @param user L'utilisateur.
+     */
     public void enableUser(User user) {
         user.setEnabled(true);
         userRepository.save(user);
     }
 
+    /** Trouve un utilisateur par son email.
+     *
+     * @param email L'email.
+     * @return L'utilisateur.
+     */
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public UserDataDto findUserDataByEmail(String Email) {
-        User user = userRepository.findByEmail(Email);
-        return mapToUserDataDto(user);
+    /** Trouve un utilisateur par son email et le converti en UserDto.
+     *
+     * @param email L'email.
+     * @return L'utilisateur.
+     */
+    public UserDto findUserDtoByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return mapToUserDto(user);
     }
 
-    public UserDataDto mapToUserDataDto(User user) {
-        UserDataDto userDto = new UserDataDto();
+    /** Converti un User en UserDto.
+     *
+     * @param user L'utilisateur.
+     * @return L'utilisateur.
+     */
+    public UserDto mapToUserDto(User user) {
+        UserDto userDto = new UserDto();
         userDto.setDisplayName(user.getDisplayName());
         userDto.setEmail(user.getEmail());
         userDto.setCreation(user.getCreation());
+        userDto.setUserData(user.getUserData());
         return userDto;
     }
 
-    public List<UserDataDto> findAllUsers() {
+    /** Trouve tous les utilisateurs.
+     *
+     * @return La liste des utilisateurs.
+     */
+    public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
-        return users.stream()
-                .map((user) -> mapToUserDataDto(user))
-                .collect(Collectors.toList());
+        return users.stream().
+            map(user -> mapToUserDto(user)).
+            collect(Collectors.toList());
     }
 
+    /** Supprime un utilisateur par son email.
+     *
+     * @param email L'email.
+     * @return Si la suppression a réussi.
+     */
     @Transactional
     public Boolean deleteUserByEmail(String email) {
         try {

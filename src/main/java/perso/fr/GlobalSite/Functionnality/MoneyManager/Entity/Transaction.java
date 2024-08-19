@@ -33,8 +33,8 @@ public class Transaction {
     private LocalDateTime time = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "accountId", nullable = false)
-    private Account account;
+    @JoinColumn(name = "bankAccountId", nullable = false)
+    private BankAccount bankAccount;
 
     @ManyToOne
     @JoinColumn(name = "labelId", nullable = false)

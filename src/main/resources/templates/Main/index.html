@@ -27,6 +27,8 @@
             </div>
         </div>
         <div th:if="${param.error != null}" class="alert alert-danger" role="alert" th:text="${#strings.toString(param.error)}"></div>
+    
+        <a th:href="@{/MoneyManager}" th:text="#{moneymanager.base.title}">Money Manager</a>
     </div>
 </body>
 

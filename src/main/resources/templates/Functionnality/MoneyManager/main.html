@@ -11,7 +11,28 @@
     <header th:insert="~{Functionnality/MoneyManager/base :: money-manager-header}"></header>
 
     <div class="container">
-        BODY
+        <h1>User Details</h1>
+
+        <h2>Bank Accounts</h2>
+        <ul>
+            <li th:each="account : ${user.bankAccounts}">
+                <span th:text="${account.name}">Bank Account Name</span>
+            </li>
+        </ul>
+
+        <h2>Accumulators</h2>
+        <ul>
+            <li th:each="accumulator : ${user.accumulators}">
+                <span th:text="${accumulator.name}">Accumulator Name</span>
+            </li>
+        </ul>
+
+        <h2>Labels</h2>
+        <ul>
+            <li th:each="label : ${user.labels}">
+                <span th:text="${label.name}">Label Name</span>
+            </li>
+        </ul>
     </div>
 </body>
 </html>
