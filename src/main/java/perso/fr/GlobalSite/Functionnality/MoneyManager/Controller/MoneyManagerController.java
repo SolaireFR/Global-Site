@@ -15,7 +15,9 @@ import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewAccumulator
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewBankAccountDto;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewLabelDto;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Repository.MoneyManagerUserRepository;
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.AccumulatorService;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.BankAccountService;
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.LabelService;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserDto;
 import perso.fr.GlobalSite.Main.Service.UserService;
 
@@ -28,6 +30,10 @@ public class MoneyManagerController {
 
     @Autowired
     private BankAccountService bankAccountService;
+    @Autowired
+    private AccumulatorService accumulatorService;
+    @Autowired
+    private LabelService labelService;
 
     @Autowired
     private UserService userService;
@@ -65,7 +71,7 @@ public class MoneyManagerController {
      */
     @PostMapping("/accumulator/create")
     public String createAccumulator(@ModelAttribute NewAccumulatorDto accumulator) {
-        // Logique pour sauvegarder l'Accumulator
+        accumulatorService.saveAccumulator(accumulator, getMoneyManagerUser());
         return "redirect:/MoneyManager";
     }
 
@@ -76,7 +82,7 @@ public class MoneyManagerController {
      */
     @PostMapping("/label/create")
     public String createLabel(@ModelAttribute NewLabelDto label) {
-        // Logique pour sauvegarder le Label
+        labelService.saveLabel(label, getMoneyManagerUser());
         return "redirect:/MoneyManager";
     }
 

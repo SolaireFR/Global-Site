@@ -15,7 +15,7 @@ import lombok.ToString;
 public class NewAccumulatorDto {
     private String name;
 
-    private float ammount;
+    private float amount;
 
-    private int pourcentPerMonth;
+    private int percentPerMonth;
 }

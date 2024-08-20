@@ -21,7 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "money_manager_monthly_transaction")
+@Table(name = "money_manager_monthly_transactions")
 public class MonthlyTransaction {
     public static final int MIN_DAY = 1;
     public static final int MAX_DAY = 28;

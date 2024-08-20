@@ -21,10 +21,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "money_manager_accumulator")
+@Table(name = "money_manager_accumulators")
 public class Accumulator {
-    public static final int MIN_POURCENT = 0;
-    public static final int MAX_POURCENT = 100;
+    public static final int MIN_PERCENT = 0;
+    public static final int MAX_PERCENT = 100;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +38,10 @@ public class Accumulator {
     private MoneyManagerUser user;
 
     @Column(nullable = false)
-    private float ammount = 0.0f;
+    private float amount = 0.0f;
 
     @Column(nullable = false)
-    @Min(MIN_POURCENT)
-    @Max(MAX_POURCENT)
-    private int pourcentPerMonth = 0;
+    @Min(MIN_PERCENT)
+    @Max(MAX_PERCENT)
+    private int percentPerMonth = 0;
 }
