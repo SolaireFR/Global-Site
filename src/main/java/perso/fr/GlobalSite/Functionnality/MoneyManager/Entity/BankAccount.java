@@ -1,7 +1,8 @@
 package perso.fr.GlobalSite.Functionnality.MoneyManager.Entity;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +37,14 @@ public class BankAccount {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", nullable = false)
     private MoneyManagerUser user;
 
     @OneToMany(mappedBy = "bankAccount")
     private List<Transaction> transactions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<MonthlyTransaction> monthlyTransactions = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "money_manager_accumulate_dates", joinColumns = @JoinColumn(name = "bankAccountId"))
+    @Column(name = "accumulate_date", nullable = false)
+    private List<LocalDate> accumulateDates = new ArrayList<>(List.of(LocalDate.now()));
 }

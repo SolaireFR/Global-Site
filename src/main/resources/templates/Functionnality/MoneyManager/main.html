@@ -16,7 +16,13 @@
         <h2>Bank Accounts</h2>
         <ul>
             <li th:each="account : ${user.bankAccounts}">
-                <span th:text="${account.name}">Bank Account Name</span>
+                <h5 th:text="${account.name}">Bank Account Name</h5>
+                <h5>Date accumulés :</h5>
+                <ul>
+                    <li th:each="date : ${account.accumulateDates}">
+                        <h6 th:text="${date}"></h6>
+                    </li>
+                </ul>
             </li>
         </ul>
 

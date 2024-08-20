@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS advice_categories, advice_category_mapping, advices, main_users, main_users_data, money_manager_accumulators, money_manager_bank_accounts, money_manager_labels, money_manager_monthly_transactions, money_manager_transactions, money_manager_users;
+DROP TABLE IF EXISTS advice_categories, advice_category_mapping, advices, main_users, main_users_data, money_manager_accumulators, money_manager_accumulate_dates, money_manager_bank_accounts, money_manager_labels, money_manager_transactions, money_manager_users;
