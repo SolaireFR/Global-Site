@@ -14,10 +14,12 @@ import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.MoneyManagerUser;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewAccumulatorDto;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewBankAccountDto;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewLabelDto;
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewTransactionDto;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Repository.MoneyManagerUserRepository;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.AccumulatorService;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.BankAccountService;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.LabelService;
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.TransactionService;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserDto;
 import perso.fr.GlobalSite.Main.Service.UserService;
 
@@ -34,6 +36,8 @@ public class MoneyManagerController {
     private AccumulatorService accumulatorService;
     @Autowired
     private LabelService labelService;
+    @Autowired
+    private TransactionService transactionService;
 
     @Autowired
     private UserService userService;
@@ -48,6 +52,7 @@ public class MoneyManagerController {
         model.addAttribute("newBankAccountDto", new NewBankAccountDto());
         model.addAttribute("newAccumulatorDto", new NewAccumulatorDto());
         model.addAttribute("newLabelDto", new NewLabelDto());
+        model.addAttribute("newTransactionDto", new NewTransactionDto());
         
         model.addAttribute("user", this.getMoneyManagerUser());
         return "Functionnality/MoneyManager/main";
@@ -84,6 +89,18 @@ public class MoneyManagerController {
     public String createLabel(@ModelAttribute NewLabelDto label) {
         labelService.saveLabel(label, getMoneyManagerUser());
         return "redirect:/MoneyManager";
+    }
+
+    /** Création d'une transaction.
+     *
+     * @param transaction La transaction.
+     * @return La page.
+     */
+    @PostMapping("/transaction/create")
+    public String createTransaction(@ModelAttribute NewTransactionDto transaction) {
+        // Assurez-vous que transactionService existe et est correctement injecté
+        transactionService.saveTransaction(transaction); 
+        return "redirect:/transactions";
     }
 
     /** Renvoie le MoneyManagerUser de l'utilisateur.

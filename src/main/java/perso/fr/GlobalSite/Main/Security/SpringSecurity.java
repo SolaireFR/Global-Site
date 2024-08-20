@@ -31,6 +31,7 @@ public class SpringSecurity {
 				.requestMatchers("/MoneyManager/bankAccount/create").permitAll()
 				.requestMatchers("/MoneyManager/accumulator/create").permitAll()
 				.requestMatchers("/MoneyManager/label/create").permitAll()
+				.requestMatchers("/MoneyManager/transaction/create").permitAll()
 				.requestMatchers("/MoneyManager").permitAll()
 				.requestMatchers("/register/token").permitAll()
 				.requestMatchers("/userVerification/**").permitAll()

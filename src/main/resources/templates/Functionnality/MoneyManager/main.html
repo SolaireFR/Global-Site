@@ -67,6 +67,46 @@
             <input type="text" id="name" th:field="*{name}" required/>
             <button type="submit">Add Label</button>
         </form>
+
+        <h2>Transactions</h2>
+        <form action="#" th:action="@{/MoneyManager/transaction/create}" th:object="${newTransactionDto}" method="post">
+            <!-- Amount -->
+            <div>
+                <label for="amount">Amount</label>
+                <input type="number" step="0.01" th:field="*{amount}" required />
+            </div>
+    
+            <!-- Time (Auto-filled with current time) -->
+            <div>
+                <label for="time">Time</label>
+                <input type="datetime-local" th:field="*{time}" required />
+            </div>
+    
+            <!-- Bank Account -->
+            <div>
+                <label for="bankAccount">Bank Account</label>
+                <select th:field="*{bankAccount}" required>
+                    <option th:each="bankAccount : ${user.bankAccounts}"
+                            th:value="${bankAccount}"
+                            th:text="${bankAccount.getName()}">Account Name</option>
+                </select>
+            </div>
+    
+            <!-- Label -->
+            <div>
+                <label for="label">Label</label>
+                <select th:field="*{label}" required>
+                    <option th:each="label : ${user.labels}"
+                            th:value="${label}"
+                            th:text="${label.getName()}">Label Name</option>
+                </select>
+            </div>
+    
+            <!-- Submit Button -->
+            <div>
+                <button type="submit">Create Transaction</button>
+            </div>
+        </form>
     </div>
 </body>
 </html>
