@@ -26,7 +26,8 @@ public class TransactionService {
         
         Transaction newTransaction = new Transaction();
         newTransaction.setAmount(transactionDto.getAmount());
-        newTransaction.setTime(transactionDto.getTime());
+        newTransaction.setSecondParticipant(transactionDto.getSecondParticipant());
+        newTransaction.setTransactionDate(transactionDto.getTransactionDate());
         newTransaction.setBankAccount(bankAccount);
         newTransaction.setLabel(label);
         

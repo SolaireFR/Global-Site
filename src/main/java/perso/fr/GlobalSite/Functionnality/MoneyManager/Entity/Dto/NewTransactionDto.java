@@ -1,6 +1,6 @@
 package perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +17,9 @@ import lombok.ToString;
 public class NewTransactionDto {
     private float amount;
 
-    private LocalDateTime time;
+    private String secondParticipant;
+
+    private LocalDate transactionDate;
 
     private Long bankAccountId;
 

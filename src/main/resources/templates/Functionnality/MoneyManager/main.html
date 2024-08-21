@@ -27,7 +27,7 @@
                 Transactions
                 <ul>
                     <li th:each="transaction : ${account.transactions}">
-                        <span th:text="${transaction.time}"></span> : <span th:text="${transaction.amount}"></span>
+                        <span th:text="${transaction.transactionDate}"></span> : <span th:text="${transaction.amount}"></span>
                     </li>
                 </ul>
             </li>
@@ -82,11 +82,17 @@
                 <label for="amount">Amount</label>
                 <input type="number" step="0.01" th:field="*{amount}" required />
             </div>
-    
-            <!-- Time (Auto-filled with current time) -->
+
+            <!-- Second Participant -->
             <div>
-                <label for="time">Time</label>
-                <input type="datetime-local" th:field="*{time}" required />
+                <label for="secondParticipant">Second Participant</label>
+                <input type="text" th:field="*{secondParticipant}" placeholder="Enter participant details" required />
+            </div>
+    
+            <!-- Transaction Date (LocalDate) -->
+            <div>
+                <label for="transactionDate">Date</label>
+                <input type="date" th:field="*{transactionDate}" required />
             </div>
     
             <!-- Bank Account -->

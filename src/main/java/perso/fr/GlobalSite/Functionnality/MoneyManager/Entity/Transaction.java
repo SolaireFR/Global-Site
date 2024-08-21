@@ -8,7 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,10 +30,13 @@ public class Transaction {
     private Long transactionId;
 
     @Column(nullable = false)
+    private String secondParticipant;
+
+    @Column(nullable = false)
     private float amount;
 
     @Column(nullable = false)
-    private LocalDateTime time = LocalDateTime.now();
+    private LocalDate transactionDate = LocalDate.now();
 
     @ToString.Exclude
     @ManyToOne
