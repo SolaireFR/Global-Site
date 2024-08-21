@@ -14,7 +14,7 @@ public class BankAccountService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
     
-    /** Création d'un compte bancaire.
+    /** Sauvegarde d'un compte bancaire.
      *
      * @param bankAccountDto Compte bancaire DTO.
      * @param user Le compte de l'utilisateur.
@@ -24,6 +24,14 @@ public class BankAccountService {
         newBankAccount.setName(bankAccountDto.getName());
         newBankAccount.setUser(user);
         bankAccountRepository.save(newBankAccount);
+    }
+
+    /** Sauvegarde d'un compte bancaire.
+     *
+     * @param bankAccount Compte bancaire.
+     */
+    public void saveAccount(BankAccount bankAccount) {
+        bankAccountRepository.save(bankAccount);
     }
 
     /** Récupération d'un compte bancaire par son id.

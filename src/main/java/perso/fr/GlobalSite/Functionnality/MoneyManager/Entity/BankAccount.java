@@ -1,5 +1,6 @@
 package perso.fr.GlobalSite.Functionnality.MoneyManager.Entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -43,7 +44,7 @@ public class BankAccount {
     @JoinColumn(name = "userId", nullable = false)
     private MoneyManagerUser user;
 
-    @OneToMany(mappedBy = "bankAccount")
+    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
     private List<Transaction> transactions = new ArrayList<>();
 
     @ElementCollection

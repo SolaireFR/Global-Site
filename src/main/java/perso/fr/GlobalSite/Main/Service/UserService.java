@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserDto;
@@ -15,24 +17,12 @@ import perso.fr.GlobalSite.Main.Entity.User;
 /** Classe Service de User. */
 @Service
 public class UserService {
-
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
     private MailService mailService;
-
-    /** Constructeur de UserService.
-     *
-     * @param userRepository Récupération des données utilisateurs.
-     * @param passwordEncoder Encodage des mots de passe.
-     * @param mailService Service des mails.
-     */
-    public UserService(UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            MailService mailService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.mailService = mailService;
-    }
 
     /** Enregistre un utilisateur.
      *

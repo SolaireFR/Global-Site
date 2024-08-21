@@ -100,7 +100,7 @@ public class MoneyManagerController {
     public String createTransaction(@ModelAttribute NewTransactionDto transaction) {
         // Assurez-vous que transactionService existe et est correctement injecté
         transactionService.saveTransaction(transaction); 
-        return "redirect:/transactions";
+        return "redirect:/MoneyManager";
     }
 
     /** Renvoie le MoneyManagerUser de l'utilisateur.

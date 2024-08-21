@@ -23,6 +23,13 @@
                         <h6 th:text="${date}"></h6>
                     </li>
                 </ul>
+
+                Transactions
+                <ul>
+                    <li th:each="transaction : ${account.transactions}">
+                        <span th:text="${transaction.time}"></span> : <span th:text="${transaction.amount}"></span>
+                    </li>
+                </ul>
             </li>
         </ul>
 
