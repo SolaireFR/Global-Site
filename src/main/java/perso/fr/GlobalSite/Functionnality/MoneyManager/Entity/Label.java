@@ -12,12 +12,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /** Permet de diffèrencier les types de transaction créer par l'utilisateur. */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "money_manager_labels")
 public class Label {
@@ -28,6 +30,7 @@ public class Label {
     @Column(nullable = false)
     private String name;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "userId")
     private MoneyManagerUser user;

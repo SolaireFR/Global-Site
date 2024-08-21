@@ -13,12 +13,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /** Une transaction est un déplacement d'argent. */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "money_manager_transactions")
 public class Transaction {
@@ -32,10 +34,12 @@ public class Transaction {
     @Column(nullable = false)
     private LocalDateTime time = LocalDateTime.now();
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "bankAccountId", nullable = false)
     private BankAccount bankAccount;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "labelId", nullable = false)
     private Label label;

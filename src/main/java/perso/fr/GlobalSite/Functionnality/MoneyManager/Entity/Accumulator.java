@@ -14,12 +14,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /** Une charge correspond aux sorties fixes d'argent pour des objectifs précis. */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "money_manager_accumulators")
 public class Accumulator {
@@ -33,6 +35,7 @@ public class Accumulator {
     @Column(nullable = false)
     private String name;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "userId")
     private MoneyManagerUser user;

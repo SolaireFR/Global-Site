@@ -25,4 +25,13 @@ public class BankAccountService {
         newBankAccount.setUser(user);
         bankAccountRepository.save(newBankAccount);
     }
+
+    /** Récupération d'un compte bancaire par son id.
+     *
+     * @param bankAccountId L'id du compte bancaire.
+     * @return Le compte bancaire.
+     */
+    public BankAccount findById(Long bankAccountId) {
+        return bankAccountRepository.findById(bankAccountId).get();
+    }
 }

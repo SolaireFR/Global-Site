@@ -20,12 +20,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /** Classe entité de compte bancaire */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "money_manager_bank_accounts")
 public class BankAccount {
@@ -36,6 +38,7 @@ public class BankAccount {
     @Column(nullable = false)
     private String name;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     private MoneyManagerUser user;

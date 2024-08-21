@@ -85,9 +85,9 @@
             <!-- Bank Account -->
             <div>
                 <label for="bankAccount">Bank Account</label>
-                <select th:field="*{bankAccount}" required>
+                <select th:field="*{bankAccountId}" required>
                     <option th:each="bankAccount : ${user.bankAccounts}"
-                            th:value="${bankAccount}"
+                            th:value="${bankAccount.bankAccountId}"
                             th:text="${bankAccount.getName()}">Account Name</option>
                 </select>
             </div>
@@ -95,9 +95,9 @@
             <!-- Label -->
             <div>
                 <label for="label">Label</label>
-                <select th:field="*{label}" required>
+                <select th:field="*{labelId}" required>
                     <option th:each="label : ${user.labels}"
-                            th:value="${label}"
+                            th:value="${label.labelId}"
                             th:text="${label.getName()}">Label Name</option>
                 </select>
             </div>

@@ -25,4 +25,13 @@ public class LabelService {
         newLabel.setUser(user);
         labelRepository.save(newLabel);
     }
+
+    /** Récupération d'un label par son id.
+     *
+     * @param labelId L'id du label.
+     * @return Le label.
+     */
+    public Label findById(Long labelId) {
+        return labelRepository.findById(labelId).get();
+    }
 }

@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.BankAccount;
-import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Label;
 
 /** DTO de création Transaction. */
 @Getter
@@ -21,7 +19,7 @@ public class NewTransactionDto {
 
     private LocalDateTime time;
 
-    private BankAccount bankAccount;
+    private Long bankAccountId;
 
-    private Label label;
+    private Long labelId;
 }
