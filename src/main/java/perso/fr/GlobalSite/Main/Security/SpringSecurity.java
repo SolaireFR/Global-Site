@@ -30,6 +30,7 @@ public class SpringSecurity {
 				.requestMatchers("/register").permitAll()
 				.requestMatchers("/MoneyManager/bankAccount/create").permitAll()
 				.requestMatchers("/MoneyManager/accumulator/create").permitAll()
+				.requestMatchers("/MoneyManager/statementreader").permitAll()
 				.requestMatchers("/MoneyManager/label/create").permitAll()
 				.requestMatchers("/MoneyManager/transaction/create").permitAll()
 				.requestMatchers("/MoneyManager").permitAll()

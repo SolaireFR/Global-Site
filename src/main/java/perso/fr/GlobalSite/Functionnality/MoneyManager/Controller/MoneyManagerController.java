@@ -1,6 +1,11 @@
 package perso.fr.GlobalSite.Functionnality.MoneyManager.Controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.MoneyManagerUser;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewAccumulatorDto;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewBankAccountDto;
@@ -101,6 +110,46 @@ public class MoneyManagerController {
         // Assurez-vous que transactionService existe et est correctement injecté
         transactionService.saveTransaction(transaction); 
         return "redirect:/MoneyManager";
+    }
+
+    /** Affiche la page de lecture de relevé bancaire.
+     *
+     * @return La page.
+     */
+    @GetMapping("/statementreader")
+    public String showStatementReader() {
+        System.out.println("showStatementReader");
+        return "Functionnality/MoneyManager/statementreader";
+    }
+
+    /** Gère le téléchargement de fichiers.
+     *
+     * @param file Le fichier.
+     * @return Le résultat.
+     */
+    @PostMapping("/statementreader")
+    @ResponseBody
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
+        }
+
+        // Vérifier que le fichier est un PDF
+        if (!file.getContentType().equals("application/pdf")) {
+            return new ResponseEntity<>("Invalid file type. Only PDF files are accepted.", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            // Vous pouvez maintenant enregistrer le fichier ou le traiter selon vos besoins
+            InputStream inputStream = file.getInputStream();
+            System.out.println(inputStream);
+            // Process the input stream as needed
+            // For example, save the file to a directory or a database
+
+            return new ResponseEntity<>("File uploaded successfully!", HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>("Failed to upload file.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /** Renvoie le MoneyManagerUser de l'utilisateur.
