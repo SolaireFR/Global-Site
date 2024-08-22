@@ -29,6 +29,7 @@ import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.Accumulato
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.BankAccountService;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.LabelService;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.TransactionService;
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Service.PdfService;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserDto;
 import perso.fr.GlobalSite.Main.Service.UserService;
 
@@ -47,6 +48,8 @@ public class MoneyManagerController {
     private LabelService labelService;
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private PdfService pdfService;
 
     @Autowired
     private UserService userService;
@@ -143,10 +146,12 @@ public class MoneyManagerController {
             // Vous pouvez maintenant enregistrer le fichier ou le traiter selon vos besoins
             InputStream inputStream = file.getInputStream();
             System.out.println(inputStream);
+            String text = pdfService.extractTextFromPdf(inputStream);
+            System.out.println(text);
             // Process the input stream as needed
             // For example, save the file to a directory or a database
 
-            return new ResponseEntity<>("File uploaded successfully!", HttpStatus.OK);
+            return new ResponseEntity<>("File :" + text, HttpStatus.OK);
         } catch (IOException e) {
             return new ResponseEntity<>("Failed to upload file.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
