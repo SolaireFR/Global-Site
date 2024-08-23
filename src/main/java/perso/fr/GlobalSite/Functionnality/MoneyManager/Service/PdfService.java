@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** Le service pour gèrer les PDFs. */
 @Service
@@ -19,7 +23,7 @@ public class PdfService {
      * @return Le texte extrait.
      * @throws IOException Si une erreur survient lors de la lecture du document.
      */
-    public String extractTextFromPdf(InputStream inputStream) throws IOException {
+    public String[] extractTextFromPdf(InputStream inputStream) throws IOException {
         // Charger le document PDF à partir de l'InputStream
         
         byte[] pdfData = inputStreamToByteArray(inputStream);
@@ -36,7 +40,10 @@ public class PdfService {
             // Formater le texte avec des retours à la ligne
             String formattedText = formatTransactions(relevantText);
 
-            return formattedText;
+            // Diviser le texte en transactions individuelles
+            String[] transactionsTextTable = splitTransactions(formattedText);
+
+            return transactionsTextTable;
         }
     }
 
@@ -84,5 +91,28 @@ public class PdfService {
             formattedText.append(formattedTransaction).append("\n");
         }
         return formattedText.toString();
+    }
+
+    /** Divise le texte des transactions en transactions individuelles.
+     *
+     * @param transactionsText Le texte des transactions.
+     * @return Un tableau de transactions individuelles.
+     */
+    public String[] splitTransactions(String transactionsText) {
+        String regex = "(\\d{2}/\\d{2}/\\d{4})\\s+(.+?)\\s+([+-])\\s+([\\d,]+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(transactionsText);
+
+        List<String> transactionsTextList = new ArrayList<>();
+        while (matcher.find()) {
+            String date = matcher.group(1);
+            String text = matcher.group(2);
+            String sign = matcher.group(3);
+            String number = matcher.group(4);
+
+            transactionsTextList.add(date + " [" + text + "] " + sign + " " + number);
+        }
+
+        return transactionsTextList.toArray(new String[0]);
     }
 }
