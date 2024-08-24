@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.MoneyManagerUser;
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Transaction;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewAccumulatorDto;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewBankAccountDto;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Dto.NewLabelDto;
@@ -145,8 +146,11 @@ public class MoneyManagerController {
         try {
             // Vous pouvez maintenant enregistrer le fichier ou le traiter selon vos besoins
             InputStream inputStream = file.getInputStream();
-            String[] transactions = pdfService.extractTextFromPdf(inputStream);
-            String text = String.join("<br>\n", transactions);
+            Transaction[] transactions = pdfService.extractTextFromPdf(inputStream);
+            
+            String text = "";
+            for (Transaction transaction : transactions)
+                text += transaction.toString() + "<br>\n";
 
             System.out.println(text);
             return new ResponseEntity<>("File :" + text, HttpStatus.OK);

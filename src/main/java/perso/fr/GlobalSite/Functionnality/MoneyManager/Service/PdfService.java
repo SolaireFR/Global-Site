@@ -5,6 +5,8 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
 
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Transaction;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +26,7 @@ public class PdfService {
      * @return Le texte extrait.
      * @throws IOException Si une erreur survient lors de la lecture du document.
      */
-    public String[] extractTextFromPdf(InputStream inputStream) throws IOException {
+    public Transaction[] extractTextFromPdf(InputStream inputStream) throws IOException {
         // Charger le document PDF à partir de l'InputStream
         
         byte[] pdfData = inputStreamToByteArray(inputStream);
@@ -42,7 +44,7 @@ public class PdfService {
             String formattedText = formatTransactions(relevantText);
 
             // Diviser le texte en transactions individuelles
-            String[] transactionsTextTable = splitTransactions(formattedText);
+            Transaction[] transactionsTextTable = splitTransactions(formattedText);
 
             return transactionsTextTable;
         }
@@ -99,24 +101,29 @@ public class PdfService {
      * @param transactionsText Le texte des transactions.
      * @return Un tableau de transactions individuelles.
      */
-    public String[] splitTransactions(String transactionsText) {
+    public Transaction[] splitTransactions(String transactionsText) {
         String regex = "(\\d{2}/\\d{2}/\\d{4})\\s+(.+?)\\s+([+-])\\s+([\\d,]+)";
         String[] badStrings = {"POUR UN TOTAL DE"};
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(transactionsText);
 
-        List<String> transactionsTextList = new ArrayList<>();
+        List<Transaction> transactionsTextList = new ArrayList<>();
         while (matcher.find()) {
             String date = matcher.group(1);
             String text = matcher.group(2);
             String sign = matcher.group(3);
-            String number = matcher.group(4);
+            String number = matcher.group(4).replace(',', '.');
 
             boolean containNoBadString = Arrays.stream(badStrings).noneMatch(text::contains);
-            if (containNoBadString)
-                transactionsTextList.add(date + " [" + text + "] " + sign + " " + number);
+            if (containNoBadString) {
+                Transaction newTransaction = new Transaction();
+                newTransaction.setAmount(Float.valueOf("" + (sign.equals("-") ? '-' : "") + number));
+                newTransaction.setSecondParticipant(text);
+                //newTransaction.setTransactionDate(date);
+                transactionsTextList.add(newTransaction);
+            }
         }
 
-        return transactionsTextList.toArray(new String[0]);
+        return transactionsTextList.toArray(new Transaction[0]);
     }
 }
