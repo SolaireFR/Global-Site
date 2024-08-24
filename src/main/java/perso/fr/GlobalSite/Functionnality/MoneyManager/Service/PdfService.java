@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -100,6 +101,7 @@ public class PdfService {
      */
     public String[] splitTransactions(String transactionsText) {
         String regex = "(\\d{2}/\\d{2}/\\d{4})\\s+(.+?)\\s+([+-])\\s+([\\d,]+)";
+        String[] badStrings = {"POUR UN TOTAL DE"};
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(transactionsText);
 
@@ -110,7 +112,9 @@ public class PdfService {
             String sign = matcher.group(3);
             String number = matcher.group(4);
 
-            transactionsTextList.add(date + " [" + text + "] " + sign + " " + number);
+            boolean containNoBadString = Arrays.stream(badStrings).noneMatch(text::contains);
+            if (containNoBadString)
+                transactionsTextList.add(date + " [" + text + "] " + sign + " " + number);
         }
 
         return transactionsTextList.toArray(new String[0]);
