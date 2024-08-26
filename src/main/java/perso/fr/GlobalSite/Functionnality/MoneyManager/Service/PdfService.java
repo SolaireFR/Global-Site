@@ -10,6 +10,8 @@ import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Transaction;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -102,9 +104,11 @@ public class PdfService {
      * @return Un tableau de transactions individuelles.
      */
     public Transaction[] splitTransactions(String transactionsText) {
-        String regex = "(\\d{2}/\\d{2}/\\d{4})\\s+(.+?)\\s+([+-])\\s+([\\d,]+)";
+        String searchRegex = "(\\d{2}/\\d{2}/\\d{4})\\s+(.+?)\\s+([+-])\\s+([\\d,]+)";
+        Pattern pattern = Pattern.compile(searchRegex);
         String[] badStrings = {"POUR UN TOTAL DE"};
-        Pattern pattern = Pattern.compile(regex);
+        String removeRegex = "[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9] ";
+
         Matcher matcher = pattern.matcher(transactionsText);
 
         List<Transaction> transactionsTextList = new ArrayList<>();
@@ -118,8 +122,8 @@ public class PdfService {
             if (containNoBadString) {
                 Transaction newTransaction = new Transaction();
                 newTransaction.setAmount(Float.valueOf("" + (sign.equals("-") ? '-' : "") + number));
-                newTransaction.setSecondParticipant(text);
-                //newTransaction.setTransactionDate(date);
+                newTransaction.setSecondParticipant(text.replaceAll(removeRegex, ""));
+                newTransaction.setTransactionDate(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 transactionsTextList.add(newTransaction);
             }
         }
