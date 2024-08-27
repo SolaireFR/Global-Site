@@ -118,22 +118,27 @@ public class MoneyManagerController {
 
     /** Affiche la page de lecture de relevé bancaire.
      *
+     * @param model Le model.
      * @return La page.
      */
     @GetMapping("/statementreader")
-    public String showStatementReader() {
-        System.out.println("showStatementReader");
+    public String showStatementReader(Model model) {
+        model.addAttribute("user", this.getMoneyManagerUser());
         return "Functionnality/MoneyManager/statementreader";
     }
 
     /** Gère le téléchargement de fichiers.
      *
      * @param file Le fichier.
+     * @param bankAccountId L'identifiant du compte bancaire.
      * @return Le résultat.
      */
     @PostMapping("/statementreader")
     @ResponseBody
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> handleFileUpload(
+            @RequestParam("file") MultipartFile file, 
+            @RequestParam("bankAccount") Long bankAccountId) {
+
         if (file.isEmpty()) {
             return new ResponseEntity<>("No file selected", HttpStatus.BAD_REQUEST);
         }
@@ -146,7 +151,7 @@ public class MoneyManagerController {
         try {
             // Vous pouvez maintenant enregistrer le fichier ou le traiter selon vos besoins
             InputStream inputStream = file.getInputStream();
-            Transaction[] transactions = pdfService.extractTextFromPdf(inputStream);
+            Transaction[] transactions = pdfService.extractTextFromPdf(inputStream, bankAccountId);
             
             String text = "";
             for (Transaction transaction : transactions)

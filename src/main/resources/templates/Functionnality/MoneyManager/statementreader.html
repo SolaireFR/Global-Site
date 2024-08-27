@@ -19,6 +19,14 @@
                 <label for="file">Select PDF file</label>
                 <input type="file" id="file" name="file" accept=".pdf" required />
             </div>
+
+            <!-- Select a Bank Account -->
+            <label for="bankAccount">Select Bank Account</label>
+            <select name="bankAccount" required>
+                <option th:each="account : ${user.bankAccounts}"
+                        th:value="${account.bankAccountId}"
+                        th:text="${account.name}">Account Name</option>
+            </select>
             
             <!-- Submit Button -->
             <div>
