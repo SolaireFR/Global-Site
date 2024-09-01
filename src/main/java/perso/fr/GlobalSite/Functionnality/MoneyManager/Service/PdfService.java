@@ -3,9 +3,12 @@ package perso.fr.GlobalSite.Functionnality.MoneyManager.Service;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.BankAccount;
 import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Transaction;
+import perso.fr.GlobalSite.Functionnality.MoneyManager.Entity.Service.BankAccountService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,15 +25,21 @@ import java.util.regex.Pattern;
 @Service
 public class PdfService {
 
+    @Autowired
+    private BankAccountService bankAccountService;
+
     /** Extrait le texte d'un document PDF.
      *
      * @param inputStream Le document PDF.
+     * @param bankAccountId Le compte bancaire.
      * @return Le texte extrait.
      * @throws IOException Si une erreur survient lors de la lecture du document.
      */
-    public Transaction[] extractTextFromPdf(InputStream inputStream) throws IOException {
+    public Transaction[] extractTextFromPdf(InputStream inputStream, Long bankAccountId) throws IOException {
+        // Récupération du compte bancaire
+        BankAccount bankAccount = this.bankAccountService.findById(bankAccountId);
+
         // Charger le document PDF à partir de l'InputStream
-        
         byte[] pdfData = inputStreamToByteArray(inputStream);
 
         try (PDDocument DOCUMENT = Loader.loadPDF(pdfData)) {
@@ -46,9 +55,14 @@ public class PdfService {
             String formattedText = formatTransactions(relevantText);
 
             // Diviser le texte en transactions individuelles
-            Transaction[] transactionsTextTable = splitTransactions(formattedText);
+            Transaction[] transactionsTable = splitTransactions(formattedText);
 
-            return transactionsTextTable;
+            for (Transaction transaction : transactionsTable) {
+                bankAccount.getTransactions().add(transaction);
+                transaction.setBankAccount(bankAccount);
+            }
+
+            return transactionsTable;
         }
     }
 
@@ -109,14 +123,19 @@ public class PdfService {
         String[] badStrings = {"POUR UN TOTAL DE"};
         String removeRegex = "[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9] ";
 
+        final int DATE_POS = 1;
+        final int TEXT_POS = 2;
+        final int SIGN_POS = 3;
+        final int PRICE_POS = 4;
+
         Matcher matcher = pattern.matcher(transactionsText);
 
         List<Transaction> transactionsTextList = new ArrayList<>();
         while (matcher.find()) {
-            String date = matcher.group(1);
-            String text = matcher.group(2);
-            String sign = matcher.group(3);
-            String number = matcher.group(4).replace(',', '.');
+            String date = matcher.group(DATE_POS);
+            String text = matcher.group(TEXT_POS);
+            String sign = matcher.group(SIGN_POS);
+            String number = matcher.group(PRICE_POS).replace(',', '.');
 
             boolean containNoBadString = Arrays.stream(badStrings).noneMatch(text::contains);
             if (containNoBadString) {
