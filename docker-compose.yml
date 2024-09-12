@@ -1,3 +1,26 @@
+# docker-compose up -d
+# docker-compose exec mysql bash
+# mysql -u root -proot
+# mysql -u root -proot < /sql_files/.sql
+
+# Port already in use :
+# netstat -ano | findstr : port number
+# taskkill /PID typeyourPIDhere /F
+
+# --------------------------------------------------------------------
+
+# docker-compose up -d
+# docker-compose exec spring bash
+# /setup.sh
+
+# If 8080 already in use :
+# netstat -aon | findstr :8080
+# tasklist | findstr [PID]
+
+# If setup.sh is not executable :
+# In container terminal :
+# apt-get update && apt-get install -y dos2unix && cp /setup.sh /setup-copy.sh && dos2unix /setup-copy.sh && /setup-copy.sh
+
 networks:
   global_site_network:
     driver: bridge
@@ -5,9 +28,9 @@ networks:
 services:
   spring:
     image: ubuntu:latest
+    container_name: global_site_spring
     volumes:
-      - ./setup.sh:/setup.sh
-      - ../../../Global-Site/:/root/Projects/Global-Site/
+      - ../Global-Site/:/root/Projects/Global-Site/
     command: tail -f /dev/null
     restart: unless-stopped
     ports:
@@ -17,12 +40,12 @@ services:
 
   mysql:
     image: mysql:latest
-    container_name: mysql_server
+    container_name: global_site_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
     restart: unless-stopped
     volumes:
-      - ./GlobalSite.sql:/sql_files/GlobalSite.sql
+      - ./init-db.sql:/init-db.sql
       - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"

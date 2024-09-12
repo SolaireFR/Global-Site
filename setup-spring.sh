@@ -39,12 +39,9 @@ if [ $? -eq 0 ]; then
         echo ECHEC
     fi
 
-    # Installation Git et Maven
+    # Installation Maven
     echo ""
     echo "--- INSTALLATION DE MAVEN ---"
-    echo ' ' >> ~/.bashrc
-    echo 'echo java : $(java --version)' >> ~/.bashrc
-    echo 'echo mvn : $(mvn --version)' >> ~/.bashrc
     apt-get install maven -y > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         echo REUSSITE
@@ -52,11 +49,16 @@ if [ $? -eq 0 ]; then
         echo ECHEC
     fi
 
+    # Ajout dans bashrc
+    echo ""
+    echo "--- FINALISATION ---"
+    echo ' ' >> ~/.bashrc
+    echo 'echo java : $(java --version)' >> ~/.bashrc
+    echo 'echo mvn : $(mvn --version)' >> ~/.bashrc
+
     # FIN
     echo ""
-    echo "Faite : "
-    echo "cd ~/Projects/"
-    echo "ACCEDER A VOTRE PROJET puis :"
+    echo "Lancement projet spring-boot :"
     echo "mvn spring-boot:run"
 else
     echo 'ECHEC (probleme de connection ?)'

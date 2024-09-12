@@ -1,18 +1,7 @@
-# Commandes utiles
+# Initialiser le projet
 ```bash
-# SPRING
-docker exec -it ubuntu-spring-1 bash
+# Sous Windows
+docker compose up -d --build ; Get-Content setup-mysql.sql | docker exec -i global_site_mysql mysql -u root -proot ; docker cp .\setup-spring.sh global_site_spring:/setup-tmp.sh ; docker exec -it global_site_spring bash
 
-apt-get update && apt-get install -y dos2unix && cp /setup.sh /setup-copy.sh && dos2unix /setup-copy.sh && /setup-copy.sh
-
-cd ~/Projects/Global-Site/
-
-mvn spring-boot:run
-
-# MYSQL
-docker exec -it mysql_server bash
-
-mysql -u root -proot
-
-USE global_site_db;
+apt-get update && apt-get install -y dos2unix && cp /setup-tmp.sh /setup.sh && dos2unix /setup.sh && ./setup.sh && cd /root/Projects/Global-Site && mvn spring-boot:run
 ```
