@@ -19,7 +19,6 @@
         <tbody>
             <tr th:each="advice : ${advices}">
                 <td th:text="${advice.getContent()}"></td>
-                <td th:text="${advice.creator.getDisplayName()}"></td>
                 <!-- Assuming User entity has a 'username' property -->
             </tr>
         </tbody>

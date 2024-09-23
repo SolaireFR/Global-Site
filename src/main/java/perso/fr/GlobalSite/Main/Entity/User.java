@@ -1,12 +1,10 @@
 package perso.fr.GlobalSite.Main.Entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.security.SecureRandom;
 import java.sql.Date;
@@ -49,11 +47,8 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String displayName;
-
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Column(nullable = true, unique = true)
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -70,18 +65,8 @@ public class User
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean locked;
 
-    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean isEnabled;
-
     @Column(nullable = false)
     private String role;
-
-    private String token;
-
-    private Date tokenExpiryDate;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private UserData userData = new UserData(this);
 
     /** Transforme et renvoie le rôle unique de l'utilisateur sous forme d'une liste pour Spring-Security.
      *

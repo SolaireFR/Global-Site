@@ -1,12 +1,12 @@
 package perso.fr.GlobalSite.Main.Entity.Dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Les données de l'utilisateur pour l'enregistrement. */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,10 +14,9 @@ import lombok.Setter;
 public class UserRegisterDto
 {
     private Long id;
-    private String displayName;
-    @NotEmpty(message = "Email must not be empty")
-    @Email
-    private String email;
+
+    private String username;
+    
     @NotEmpty(message = "Password must not be empty")
     private String password;
 }

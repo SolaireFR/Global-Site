@@ -1,7 +1,5 @@
 package perso.fr.GlobalSite.Main.Controller;
 
-import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +22,9 @@ import jakarta.validation.Valid;
 import perso.fr.GlobalSite.Main.Entity.User;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserDto;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserRegisterDto;
-import perso.fr.GlobalSite.Main.Service.MailService;
 import perso.fr.GlobalSite.Main.Service.UserService;
 
+/** Le contrôleur de l'authentification */
 @Controller
 public class AuthController {
 
@@ -36,11 +34,21 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    /** La page d'accueil
+     *
+     * @param request HttpServletRequest
+     * @return String
+     */
     @GetMapping("/")
     public String main(HttpServletRequest request) {
         return "Main/index";
     }
 
+    /** La page d'enregistrement
+     *
+     * @param model Model
+     * @return String
+     */
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         // create model object to store form data
@@ -49,16 +57,27 @@ public class AuthController {
         return "Main/register";
     }
 
+    /** L'enregistrement de l'utilisateur
+     *
+     * @param userDto UserRegisterDto
+     * @param result BindingResult
+     * @param model Model
+     * @return String
+     */
     @SuppressWarnings("null")
     @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("user") UserRegisterDto userDto,
             BindingResult result,
             Model model) {
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
+        User existingUser = userService.findUserByUsername(userDto.getUsername());
 
         Locale locale = LocaleContextHolder.getLocale();
-        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
-            result.rejectValue("email", null, messages.getMessage("register.error.emailalreadyexist", null, locale));
+        if (existingUser != null && existingUser.getUsername() != null && !existingUser.getUsername().isEmpty()) {
+            result.rejectValue(
+                "username", 
+                null, 
+                messages.getMessage("register.error.usernamealreadyexist", null, locale)
+            );
         }
 
         if (result.hasErrors()) {
@@ -67,94 +86,77 @@ public class AuthController {
         }
 
         userService.registerUser(userDto);
-        return "redirect:/register/token?email="+userDto.getEmail();
+        return "redirect:/register/token?username=" + userDto.getUsername();
     }
 
+    /** La page de tutoriel pour le token
+     *
+     * @return String
+     */
     @GetMapping("/register/token")
     public String showTokenTuto() {
         return "Main/tutoToken";
     }
 
+    /** Renvoyer le token
+     *
+     * @param username String
+     * @return String
+     */
     @PostMapping("/register/token")
-    public String resendToken(@RequestParam("email") String email) {
-        System.out.println("TOKEN RENVOYER à "+email);
-        return "redirect:/register/token?error="+email;
+    public String resendToken(@RequestParam("username") String username) {
+        System.out.println("TOKEN RENVOYER à " + username);
+        return "redirect:/register/token?error=" + username;
     }
 
-    @GetMapping("/userVerification")
-    public String confirmRegistration(Model model, @RequestParam("token") String token) {
-    
-        User user = userService.findUserWithToken(token);
-        if (user == null) {
-            return "redirect:/register/token?error=Le_token_est_invalide";
-        }
-        
-        Calendar cal = Calendar.getInstance();
-        if ((user.getTokenExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return "redirect:/register/token?error=Le_token_est_expire";
-        }
-        
-        userService.enableUser(user);
-        return "redirect:/register/token?success=userVerified"; 
-    }
-
-    @GetMapping("/users")
-    public String users(Model model) {
-        List<UserDto> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        return "Main/users";
-    }
-
+    /** La page de connexion
+     *
+     * @return String
+     */
     @GetMapping("/login")
     public String login() {
         return "Main/login";
     }
 
+    /** La page de gestion de l'utilisateur
+     *
+     * @param model Model
+     * @return String
+     */
     @GetMapping("/account")
     public String account(Model model) {
-        String email = "not_found";
+        String username = "not_found";
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            email = userDetails.getUsername();
+            username = userDetails.getUsername();
         }
 
-        UserDto user = userService.findUserDtoByEmail(email);
+        UserDto user = userService.findUserDtoByUsername(username);
         model.addAttribute("user", user);
         return "Main/account";
     }
 
+    /** La page de modification de l'utilisateur
+     *
+     * @param session httpSession
+     * @return String
+     */
     @PostMapping("/account/delete")
     public String deleteAccount(HttpSession session) {
         // Récupérer l'adresse e-mail de l'utilisateur connecté
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); // L'adresse e-mail est le nom d'utilisateur
+        String username = auth.getName(); // L'adresse e-mail est le nom d'utilisateur
 
         // Déconnecter l'utilisateur en invalidant la session
         session.invalidate();
 
         // Supprimer l'utilisateur de la base de données
-        boolean wasRemoved = userService.deleteUserByEmail(email);
+        boolean wasRemoved = userService.deleteUserByUsername(username);
         if (wasRemoved)
             return "redirect:/?message=userRemoved";
         else
             return "redirect:/account?message=userNotRemoved";
-    }
-
-    @GetMapping("/mail")
-    public String getMail() {
-        return "mail";
-    }
-
-    @Autowired
-    private MailService mailService;
-
-    @PostMapping("/send-mail")
-    public String sendEmail(@RequestParam("to") String to,
-            @RequestParam("subject") String subject,
-            @RequestParam("body") String body) {
-        mailService.sendEmail(to, subject, body);
-        return "redirect:/mail?EmailSend=true";
     }
 }

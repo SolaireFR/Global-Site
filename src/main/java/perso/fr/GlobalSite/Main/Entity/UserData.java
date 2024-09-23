@@ -1,11 +1,11 @@
 package perso.fr.GlobalSite.Main.Entity;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -28,9 +28,8 @@ public class UserData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "email", referencedColumnName = "email")
-    private User user;
+    @Column(nullable = false)
+    private String username;
 
     @OneToOne(mappedBy = "userData", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private MoneyManagerUser moneyManagerUser = new MoneyManagerUser(this);
@@ -40,6 +39,6 @@ public class UserData {
      * @param user L'utilisateur.
      */
     public UserData(User user) {
-        this.user = user;
+        this.username = user.getUsername();
     }
 }

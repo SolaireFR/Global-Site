@@ -17,7 +17,7 @@
             <div class="col-md-6 offset-md-3">
 
                 <div th:if="${param.error}">
-                    <div class="alert alert-danger" th:text="#{login.invalid}">Invalid Email or Password</div>
+                    <div class="alert alert-danger" th:text="#{login.invalid}">Invalid username or Password</div>
                 </div>
                 <div th:if="${param.logout}">
                     <div class="alert alert-success" th:text="#{login.logout}">You have been logged out.</div>
@@ -30,9 +30,9 @@
                     <div class="card-body">
                         <form method="post" role="form" th:action="@{/login}" class="form-horizontal">
                             <div class="form-group mb-3">
-                                <label class="control-label" th:text="#{login.form.email}">Email</label>
+                                <label class="control-label" th:text="#{login.form.username}">username</label>
                                 <input type="text" id="username" name="username" class="form-control"
-                                    th:placeholder="#{login.form.email.placeholder}" />
+                                    th:placeholder="#{login.form.username.placeholder}" />
                             </div>
 
                             <div class="form-group mb-3">

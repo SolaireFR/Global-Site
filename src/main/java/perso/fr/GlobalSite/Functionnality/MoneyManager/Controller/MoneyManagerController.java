@@ -169,15 +169,15 @@ public class MoneyManagerController {
      * @return Le compte utilisateur.
      */
     private MoneyManagerUser getMoneyManagerUser() {
-        String email = "not_found";
+        String username = "not_found";
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            email = userDetails.getUsername();
+            username = userDetails.getUsername();
         }
 
-        UserDto mainUser = userService.findUserDtoByEmail(email);
+        UserDto mainUser = userService.findUserDtoByUsername(username);
 
         return moneyManagerUserRepository.findOneByUserData(mainUser.getUserData());
     }

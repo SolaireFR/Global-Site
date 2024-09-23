@@ -12,6 +12,7 @@ import perso.fr.GlobalSite.Functionnality.QualityCode.Entity.Repository.AdviceRe
 import perso.fr.GlobalSite.Main.Entity.User;
 import perso.fr.GlobalSite.Main.Service.UserService;
 
+/** Service de conseils. */
 @Service
 public class AdviceService implements IAdviceService {
 
@@ -24,7 +25,7 @@ public class AdviceService implements IAdviceService {
     @Override
     public boolean saveAdvice(AdviceDto adviceDto) {
         try {
-            User user = userService.findUserByEmail("Jean.Bon@goodDocteur.fr");
+            User user = userService.findUserByUsername("Jean.Bon@goodDocteur.fr");
             Advice newAdvice = new Advice();
             newAdvice.setContent(adviceDto.getContent());
             newAdvice.setCreator(user);

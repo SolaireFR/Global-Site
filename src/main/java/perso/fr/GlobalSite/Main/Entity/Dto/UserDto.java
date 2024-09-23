@@ -16,9 +16,7 @@ import perso.fr.GlobalSite.Main.Entity.UserData;
 @ToString
 public class UserDto {
 
-    private String displayName;
-
-    private String email;
+    private String username;
 
     private LocalDateTime creation;
 

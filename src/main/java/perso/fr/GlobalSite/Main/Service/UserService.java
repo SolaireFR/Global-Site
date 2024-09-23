@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserDto;
 import perso.fr.GlobalSite.Main.Entity.Dto.UserRegisterDto;
 import perso.fr.GlobalSite.Main.Entity.Repository.UserRepository;
+import perso.fr.GlobalSite.Main.Entity.Repository.UserDataRepository;
 import perso.fr.GlobalSite.Main.Entity.Role;
 import perso.fr.GlobalSite.Main.Entity.User;
+import perso.fr.GlobalSite.Main.Entity.UserData;
 
 /** Classe Service de User. */
 @Service
@@ -22,7 +24,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private MailService mailService;
+    private UserDataRepository userDataRepository;
 
     /** Enregistre un utilisateur.
      *
@@ -31,80 +33,36 @@ public class UserService {
     public void registerUser(UserRegisterDto userDto) {
         User user = new User();
 
-        if (userDto.getDisplayName() == null || userDto.getDisplayName().isEmpty())
-            user.setDisplayName(userDto.getEmail().split("@")[0]);
-        else
-            user.setDisplayName(userDto.getDisplayName());
-
-        user.setEmail(userDto.getEmail());
+        user.setUsername(userDto.getUsername());
 
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         user.setRoles(Arrays.asList(new Role("ROLE_USER")));
 
-        User createdUser = userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        //String verificationToken = createVerificationToken(createdUser);
+        UserData userData = new UserData(savedUser);
 
-        // sendVerificationMail(createdUser, verificationToken); // Mise en commentaire
-        // pour ne pas envoyer de mail
-        this.enableUser(createdUser); // Pas de commentaire pour verifié
+        userDataRepository.save(userData);
     }
 
-    // private void sendVerificationMail(User user, String token) {
-    //     String destinationEMail = user.getEmail();
-    //     String subject = "GlobalSite - Registration Confirmation";
-
-    //     String confirmationUrl = GlobalVars.mainUrl + "userVerification?token=" + token;
-    //     String body = "Cliquer sur le lien suivant pour verifier votre compte :\r\n" + confirmationUrl;
-    //     mailService.sendEmail(destinationEMail, subject, body);
-    // }
-
-    /** Crée un token de vérification.
+    /** Trouve un utilisateur par son nom d'utilisateur.
      *
-     * @param user L'utilisateur.
-     * @return Le token.
-     */
-    public String createVerificationToken(User user) {
-        String token = User.generateNewToken();
-        return token;
-    }
-
-    /** Trouve un utilisateur avec un token.
-     *
-     * @param verificationToken Le token.
+     * @param username Le nom d'utilisateur.
      * @return L'utilisateur.
      */
-    public User findUserWithToken(String verificationToken) {
-        return userRepository.findByToken(verificationToken);
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
-    /** Active un utilisateur.
+    /** Trouve un utilisateur par son nom d'utilisateur et le converti en UserDto.
      *
-     * @param user L'utilisateur.
-     */
-    public void enableUser(User user) {
-        user.setEnabled(true);
-        userRepository.save(user);
-    }
-
-    /** Trouve un utilisateur par son email.
-     *
-     * @param email L'email.
+     * @param username Le nom d'utilisateur.
      * @return L'utilisateur.
      */
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    /** Trouve un utilisateur par son email et le converti en UserDto.
-     *
-     * @param email L'email.
-     * @return L'utilisateur.
-     */
-    public UserDto findUserDtoByEmail(String email) {
-        User user = userRepository.findByEmail(email);
+    public UserDto findUserDtoByUsername(String username) {
+        User user = userRepository.findByUsername(username);
         return mapToUserDto(user);
     }
 
@@ -115,11 +73,14 @@ public class UserService {
      */
     public UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
-        userDto.setDisplayName(user.getDisplayName());
-        userDto.setEmail(user.getEmail());
+        userDto.setUsername(user.getUsername());
         userDto.setCreation(user.getCreation());
-        userDto.setUserData(user.getUserData());
+        userDto.setUserData(this.getUserData(user));
         return userDto;
+    }
+
+    private UserData getUserData(User user) {
+        return userDataRepository.findByUsername(user.getUsername());
     }
 
     /** Trouve tous les utilisateurs.
@@ -133,16 +94,16 @@ public class UserService {
             collect(Collectors.toList());
     }
 
-    /** Supprime un utilisateur par son email.
+    /** Supprime un utilisateur par son username.
      *
-     * @param email L'email.
+     * @param username L'username.
      * @return Si la suppression a réussi.
      */
     @Transactional
-    public Boolean deleteUserByEmail(String email) {
+    public Boolean deleteUserByUsername(String username) {
         try {
             // Supprimer l'utilisateur de la base de données en utilisant le UserRepository
-            Integer removed = userRepository.deleteByEmail(email);
+            Integer removed = userRepository.deleteByUsername(username);
             return removed > 0; // La suppression a réussi
         } catch (Exception e) {
             System.out.println("Suppression utilisateur echoue !");
