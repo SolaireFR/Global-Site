@@ -96,9 +96,6 @@
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
 
-        <!-- Vérifie qu'une ligne non fini se termine bien par un séparateur.   -->
-        <module name="SeparatorWrap"/>
-
         <!-- Vérifie si les else catch sont sur l'acolade précèdente. -->
         <module name="RightCurly"/>
 
